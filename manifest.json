@@ -1,0 +1,31 @@
+{
+    "$schema":  "./schemas/manifest.schema.json",
+    "schema_version":  1,
+    "catalog_version":  1,
+    "packs":  [
+                  {
+                      "id":  "fr_fr",
+                      "language":  "French",
+                      "native_name":  "Français",
+                      "version":  "1.0.0",
+                      "engine":  "vosk",
+                      "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.0.0/voice-destroy-language-fr_fr-1.0.0.zip",
+                      "archive_size":  42211434,
+                      "sha256":  "6C5BBA87D73F08782CAAB52AB39F38863CD723F09EC348085015A5133CAC3A24",
+                      "license":  "Apache-2.0",
+                      "min_mod_version":  "1.4.0"
+                  },
+                  {
+                      "id":  "en_us",
+                      "language":  "English (United States)",
+                      "native_name":  "English (US)",
+                      "version":  "1.0.0",
+                      "engine":  "vosk",
+                      "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.0.0/voice-destroy-language-en_us-1.0.0.zip",
+                      "archive_size":  41189875,
+                      "sha256":  "58C7AA9FDCF80336335EE787DF878C333155ACF7C1824BD03D108CB9C82B2531",
+                      "license":  "Apache-2.0",
+                      "min_mod_version":  "1.4.0"
+                  }
+              ]
+}
