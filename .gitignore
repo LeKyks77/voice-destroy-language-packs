@@ -1,0 +1,7 @@
+# Modèles et archives générées : ne jamais les committer dans Git.
+downloads/
+work/
+dist/
+*.zip
+*.part
+sources/*/model/
