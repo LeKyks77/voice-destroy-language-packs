@@ -13,9 +13,8 @@ Le mod consultera le fichier [`manifest.json`](manifest.json) :
 https://raw.githubusercontent.com/LeKyks77/voice-destroy-language-packs/main/manifest.json
 ```
 
-Le catalogue reste volontairement vide tant que les premières archives `fr_fr` et `en_us` ne sont
-pas construites et téléversées. Un client Voice Destroy ne doit jamais recevoir un lien ou une
-empreinte provisoire.
+Les entrées du catalogue sont produites par le constructeur à partir des archives Vosk officielles.
+Chaque client vérifie la taille et le SHA-256 avant d'installer un pack.
 
 ## Structure
 
@@ -31,8 +30,20 @@ docs/PACK_FORMAT.md           contenu attendu d'une archive téléchargeable
 
 | Identifiant | Langue | Modèle Vosk initial | État |
 |---|---|---|---|
-| `fr_fr` | Français | `vosk-model-small-fr-0.22` | préparation |
-| `en_us` | English (US) | `vosk-model-small-en-us-0.15` | préparation |
+| `fr_fr` | Français | `vosk-model-small-fr-0.22` | prêt à construire |
+| `en_us` | English (US) | `vosk-model-small-en-us-0.15` | prêt à construire |
 
 Les petits modèles français et anglais sont distribués par Vosk sous licence Apache-2.0. Leurs
 licences et crédits devront rester présents dans chaque archive publiée.
+
+## Construire une publication
+
+Les archives source attendues et leurs empreintes de confiance sont déclarées dans
+[`tools/model-sources.json`](tools/model-sources.json). Après les avoir placées dans `downloads/` :
+
+```powershell
+.\tools\build-language-packs.ps1
+```
+
+Les ZIP finaux sont créés dans `dist/`. Ils doivent être joints à la GitHub Release indiquée par le
+catalogue ; ils ne doivent pas être ajoutés à Git.

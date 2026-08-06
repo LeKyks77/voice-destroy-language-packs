@@ -26,5 +26,17 @@ LICENSES/
    par déplacement atomique.
 7. Une archive invalide, trop volumineuse ou contenant un chemin sortant de sa racine est refusée.
 
+## Construction locale
+
+Placer les archives Vosk officielles dans `downloads/`, puis exécuter :
+
+```powershell
+.\tools\build-language-packs.ps1
+```
+
+Le constructeur contrôle la taille et le SHA-256 des sources, valide les fichiers indispensables du
+modèle, produit des ZIP reproductibles dans `dist/`, relit intégralement chaque archive et met à jour
+le catalogue avec les empreintes finales.
+
 Les packs installés restent utilisables hors ligne. Le catalogue distant sert uniquement à installer,
 mettre à jour ou supprimer un pack.

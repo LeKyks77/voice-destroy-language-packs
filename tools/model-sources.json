@@ -1,0 +1,14 @@
+{
+  "fr_fr": {
+    "archive": "vosk-model-small-fr-0.22.zip",
+    "archive_size": 42233323,
+    "sha256": "CABF6180E177EB9B3A9A9D43A437BD5E549F3A7D09525E5D69A3FED787BE12AD",
+    "root": "vosk-model-small-fr-0.22"
+  },
+  "en_us": {
+    "archive": "vosk-model-small-en-us-0.15.zip",
+    "archive_size": 41205931,
+    "sha256": "30F26242C4EB449F948E42CB302DD7A686CB29A3423A8367F99FF41780942498",
+    "root": "vosk-model-small-en-us-0.15"
+  }
+}
