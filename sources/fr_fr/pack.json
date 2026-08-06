@@ -4,6 +4,7 @@
   "id": "fr_fr",
   "language": "French",
   "native_name": "Français",
+  "version": "1.0.0",
   "engine": "vosk",
   "model": {
     "name": "vosk-model-small-fr-0.22",
@@ -11,5 +12,6 @@
     "license": "Apache-2.0",
     "source_page": "https://alphacephei.com/vosk/models"
   },
-  "dictionary": "dictionary.json"
+  "dictionary": "dictionary.json",
+  "min_mod_version": "1.4.0"
 }
