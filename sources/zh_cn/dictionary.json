@@ -1,0 +1,1047 @@
+{
+    "$schema":  "../../schemas/dictionary.schema.json",
+    "schema_version":  1,
+    "language":  "zh_cn",
+    "aliases":  [
+                    {
+                        "words":  [
+                                      "树木",
+                                      "大树",
+                                      "整棵树",
+                                      "树和树叶",
+                                      "所有树木"
+                                  ],
+                        "type":  "family",
+                        "target":  "voixdisparition:tree",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "木头",
+                                      "原木",
+                                      "木材",
+                                      "树干",
+                                      "木块",
+                                      "原木方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_log",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "木板",
+                                      "木板方块",
+                                      "板材",
+                                      "木质板材"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_planks",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "树叶",
+                                      "叶子",
+                                      "树叶方块",
+                                      "叶块",
+                                      "枝叶"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_leaves",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "石头",
+                                      "石块",
+                                      "岩石",
+                                      "石头方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:stone",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "圆石",
+                                      "鹅卵石",
+                                      "圆石方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:cobblestone",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "泥土",
+                                      "土块",
+                                      "土地",
+                                      "草地泥土"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dirt",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "沙子",
+                                      "沙块",
+                                      "沙土",
+                                      "所有沙子"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:sand",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "沙砾",
+                                      "砂砾",
+                                      "碎石",
+                                      "碎石块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:gravel",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "玻璃",
+                                      "玻璃块",
+                                      "玻璃方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:glass",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "砖块",
+                                      "红砖",
+                                      "砖头",
+                                      "砖方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:bricks",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "雪块",
+                                      "雪方块",
+                                      "积雪",
+                                      "白雪"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:snow_block",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "冰块",
+                                      "寒冰",
+                                      "所有冰块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:ice",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "岩浆块",
+                                      "岩浆方块",
+                                      "熔岩块",
+                                      "熔岩方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:magma_block",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "海带",
+                                      "海草",
+                                      "水草",
+                                      "水生植物",
+                                      "水下植物"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:kelp",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "水",
+                                      "水源",
+                                      "水方块",
+                                      "水源方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:water",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "岩浆",
+                                      "熔岩",
+                                      "岩浆源",
+                                      "熔岩源",
+                                      "流动岩浆"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:lava",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "羊毛",
+                                      "羊毛块",
+                                      "羊毛方块",
+                                      "所有羊毛"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_wool",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "混凝土",
+                                      "混凝土块",
+                                      "混凝土方块",
+                                      "所有混凝土"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_concrete",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "陶瓦",
+                                      "陶土",
+                                      "黏土块",
+                                      "硬化黏土",
+                                      "陶瓦方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_terracotta",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "火把",
+                                      "火炬",
+                                      "照明火把"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:torch",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "铁轨",
+                                      "轨道",
+                                      "铁路",
+                                      "矿车轨道"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:rail",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "花",
+                                      "花朵",
+                                      "鲜花",
+                                      "所有花朵"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dandelion",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "珊瑚",
+                                      "珊瑚块",
+                                      "珊瑚方块",
+                                      "所有珊瑚"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:tube_coral_block",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "箱子",
+                                      "储物箱",
+                                      "宝箱",
+                                      "木箱",
+                                      "所有箱子"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:chest",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "工作台",
+                                      "合成台",
+                                      "制作台",
+                                      "合成桌"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:crafting_table",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "附魔台",
+                                      "附魔桌",
+                                      "附魔工作台"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:enchanting_table",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "熔炉",
+                                      "炉子",
+                                      "火炉",
+                                      "烧炼炉"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:furnace",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "漏斗",
+                                      "物品漏斗",
+                                      "运输漏斗"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:hopper",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "发射器",
+                                      "物品发射器"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dispenser",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "投掷器",
+                                      "投放器",
+                                      "物品投掷器"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dropper",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "合成器",
+                                      "自动合成器",
+                                      "自动工作台",
+                                      "自动合成台"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:crafter",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "刷怪笼",
+                                      "刷怪箱",
+                                      "生物生成器",
+                                      "怪物生成器"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:spawner",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "试炼刷怪笼",
+                                      "试炼生成器",
+                                      "试炼生物生成器"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:trial_spawner",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "宝库",
+                                      "试炼宝库",
+                                      "宝藏库",
+                                      "试炼保险库"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:vault",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "信标",
+                                      "信标块",
+                                      "信标方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:beacon",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "书架",
+                                      "书架方块",
+                                      "藏书架"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:bookshelf",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "潜影盒",
+                                      "潜影箱",
+                                      "潜影贝盒",
+                                      "所有潜影盒"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:shulker_box",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "末影箱",
+                                      "末影箱子",
+                                      "末地箱",
+                                      "末影储物箱"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:ender_chest",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "盔甲架",
+                                      "装备架",
+                                      "护甲架",
+                                      "盔甲支架"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:armor_stand",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "告示牌",
+                                      "牌子",
+                                      "木牌",
+                                      "标牌"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_sign",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "门",
+                                      "木门",
+                                      "所有门",
+                                      "门方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_door",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "床",
+                                      "床铺",
+                                      "所有床",
+                                      "睡床"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_bed",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "剑",
+                                      "宝剑",
+                                      "刀剑",
+                                      "长剑",
+                                      "所有剑"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_sword",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "镐子",
+                                      "矿镐",
+                                      "十字镐",
+                                      "所有镐子"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_pickaxe",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "斧头",
+                                      "斧子",
+                                      "砍树斧",
+                                      "所有斧头"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_axe",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "锹",
+                                      "铲子",
+                                      "铁锹",
+                                      "铁铲",
+                                      "所有铲子"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_shovel",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "锄头",
+                                      "锄子",
+                                      "农具锄头",
+                                      "所有锄头"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_hoe",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "头盔",
+                                      "帽子",
+                                      "护头",
+                                      "所有头盔"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_helmet",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "胸甲",
+                                      "盔甲",
+                                      "上身护甲",
+                                      "护胸",
+                                      "所有胸甲"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_chestplate",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "护腿",
+                                      "腿甲",
+                                      "裤子",
+                                      "下身护甲",
+                                      "所有护腿"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_leggings",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "靴子",
+                                      "鞋子",
+                                      "战靴",
+                                      "足部护甲",
+                                      "所有靴子"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_boots",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "金苹果",
+                                      "普通金苹果",
+                                      "黄金苹果",
+                                      "金苹"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:golden_apple",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "附魔金苹果",
+                                      "神苹果",
+                                      "诺奇苹果",
+                                      "附魔金苹",
+                                      "上帝苹果"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:enchanted_golden_apple",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "末影珍珠",
+                                      "末影珠",
+                                      "珍珠",
+                                      "末地珍珠"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:ender_pearl",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "鞘翅",
+                                      "翅膀",
+                                      "滑翔翼",
+                                      "飞行翅膀"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:elytra",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "不死图腾",
+                                      "保命图腾",
+                                      "复活图腾",
+                                      "不朽图腾"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:totem_of_undying",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "命名牌",
+                                      "名牌",
+                                      "名字牌",
+                                      "生物命名牌"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:name_tag",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "拴绳",
+                                      "牵引绳",
+                                      "牵绳",
+                                      "绳索"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:lead",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "钓鱼竿",
+                                      "鱼竿",
+                                      "钓竿",
+                                      "捕鱼竿"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:fishing_rod",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "烟花火箭",
+                                      "烟花",
+                                      "火箭",
+                                      "烟火火箭"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:firework_rocket",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "炸药",
+                                      "TNT",
+                                      "tnt",
+                                      "梯恩梯",
+                                      "炸药方块"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:tnt",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "经验瓶",
+                                      "附魔之瓶",
+                                      "经验之瓶",
+                                      "XP瓶",
+                                      "xp瓶"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:experience_bottle",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "骨粉",
+                                      "肥料",
+                                      "骨头粉"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:bone_meal",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "黏液球",
+                                      "粘液球",
+                                      "史莱姆球",
+                                      "黏液珠"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:slime_ball",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "火药",
+                                      "炸药粉",
+                                      "黑火药"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:gunpowder",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "烈焰棒",
+                                      "火焰棒",
+                                      "烈焰人棒",
+                                      "烈焰杆"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:blaze_rod",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "下界疣",
+                                      "地狱疣",
+                                      "下界蘑菇",
+                                      "地狱蘑菇"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:nether_wart",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "末地水晶",
+                                      "末影水晶",
+                                      "末地晶体",
+                                      "终界水晶"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:end_crystal",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "音乐唱片",
+                                      "唱片",
+                                      "音乐碟",
+                                      "音乐盘"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:music_disc_13",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "船",
+                                      "小船",
+                                      "木船",
+                                      "所有船"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:oak_boat",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "矿车",
+                                      "矿井车",
+                                      "轨道车"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:minecart",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "刷怪蛋",
+                                      "生成蛋",
+                                      "生物蛋",
+                                      "召唤蛋"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:pig_spawn_egg",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "锻造模板",
+                                      "护甲纹饰",
+                                      "盔甲纹饰",
+                                      "锻造图纸"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:netherite_upgrade_smithing_template",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "陶片",
+                                      "陶器碎片",
+                                      "陶罐碎片",
+                                      "纹样陶片"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:angler_pottery_sherd",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "染料",
+                                      "颜料",
+                                      "颜色染料",
+                                      "所有染料"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:white_dye",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "炖菜",
+                                      "汤",
+                                      "蘑菇煲",
+                                      "蘑菇汤",
+                                      "肉汤"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:mushroom_stew",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "马铠",
+                                      "马甲",
+                                      "马匹盔甲",
+                                      "马的护甲"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_horse_armor",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "头颅",
+                                      "生物头颅",
+                                      "骷髅头",
+                                      "怪物头颅",
+                                      "脑袋"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:skeleton_skull",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "肉",
+                                      "肉类",
+                                      "生肉",
+                                      "熟肉",
+                                      "烤肉",
+                                      "所有肉类"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:beef",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "僵尸猪灵",
+                                      "僵尸猪人",
+                                      "猪人",
+                                      "僵尸猪人怪"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:zombified_piglin",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "雪傀儡",
+                                      "雪人",
+                                      "雪魔像",
+                                      "雪人傀儡"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:snow_golem",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "铁傀儡",
+                                      "铁人",
+                                      "铁巨人",
+                                      "铁魔像"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:iron_golem",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "末影龙",
+                                      "末地龙",
+                                      "终界龙",
+                                      "巨龙"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:ender_dragon",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "凋灵",
+                                      "凋零",
+                                      "凋灵王",
+                                      "凋零王",
+                                      "凋灵首领"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:wither",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "治疗药水",
+                                      "治疗药",
+                                      "回血药水",
+                                      "生命药水",
+                                      "恢复药水"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:healing",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "伤害药水",
+                                      "瞬间伤害药水",
+                                      "损害药水",
+                                      "掉血药水"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:harming",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "力量药水",
+                                      "力量药",
+                                      "增强药水",
+                                      "加力量药水"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:strength",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "迅捷药水",
+                                      "速度药水",
+                                      "加速药水",
+                                      "迅捷药"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:swiftness",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "抗火药水",
+                                      "防火药水",
+                                      "火焰抗性药水",
+                                      "抗火药"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:fire_resistance",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "夜视药水",
+                                      "夜视药",
+                                      "黑暗视觉药水"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:night_vision",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "隐身药水",
+                                      "隐形药水",
+                                      "隐身药",
+                                      "透明药水"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:invisibility",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "水肺药水",
+                                      "水下呼吸药水",
+                                      "水中呼吸药水",
+                                      "潜水药水"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:water_breathing",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    },
+                    {
+                        "words":  [
+                                      "缓降药水",
+                                      "缓慢降落药水",
+                                      "轻落药水",
+                                      "慢落药水"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:slow_falling",
+                        "notes":  "Chinois simplifié : noms officiels et variantes courantes"
+                    }
+                ]
+}

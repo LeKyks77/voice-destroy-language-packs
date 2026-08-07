@@ -42,5 +42,13 @@
                                 "sha256":  "09B239888F633EF2F0B4E09736E3D9936ACFD810BC65D53FAD45261762C6511F",
                                 "root":  "vosk-model-small-es-0.42"
                             }
+              },
+    "zh_cn":  {
+                  "small":  {
+                                "archive":  "vosk-model-small-cn-0.22.zip",
+                                "archive_size":  43898754,
+                                "sha256":  "3AF8B0E7E0F835AE9D414CE5DF580237A3CFB08D586C9FBBB0F7FF29AD5B14BA",
+                                "root":  "vosk-model-small-cn-0.22"
+                            }
               }
 }
