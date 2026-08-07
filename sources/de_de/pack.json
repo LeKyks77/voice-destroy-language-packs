@@ -1,0 +1,27 @@
+{
+    "$schema":  "../../schemas/pack.schema.json",
+    "schema_version":  2,
+    "id":  "de_de",
+    "language":  "German",
+    "native_name":  "Deutsch",
+    "version":  "1.0.0",
+    "engine":  "vosk",
+    "dictionary":  "dictionary.json",
+    "min_mod_version":  "1.5.0",
+    "variants":  [
+                     {
+                         "id":  "small",
+                         "name":  "Small",
+                         "description":  "Leichte, weniger genaue Spracherkennung für schwächere Computer.",
+                         "hardware":  "Etwa 300 MB RAM · schwächere PCs und Raspberry Pi",
+                         "runtime_memory_mb":  300,
+                         "recommended":  true,
+                         "model":  {
+                                       "name":  "vosk-model-small-de-0.15",
+                                       "upstream_url":  "https://alphacephei.com/vosk/models/vosk-model-small-de-0.15.zip",
+                                       "license":  "Apache-2.0",
+                                       "source_page":  "https://alphacephei.com/vosk/models"
+                                   }
+                     }
+                 ]
+}

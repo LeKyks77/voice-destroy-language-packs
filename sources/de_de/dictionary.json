@@ -1,0 +1,1066 @@
+{
+    "$schema":  "../../schemas/dictionary.schema.json",
+    "schema_version":  1,
+    "language":  "de_de",
+    "aliases":  [
+                    {
+                        "words":  [
+                                      "baum",
+                                      "bäume",
+                                      "bäumen",
+                                      "bäume und blätter",
+                                      "ganzer baum"
+                                  ],
+                        "type":  "family",
+                        "target":  "voixdisparition:tree"
+                    },
+                    {
+                        "words":  [
+                                      "holz",
+                                      "hölzer",
+                                      "holzstamm",
+                                      "holzstämme",
+                                      "baumstamm",
+                                      "baumstämme",
+                                      "stamm",
+                                      "stämme",
+                                      "holzblock",
+                                      "logs",
+                                      "log"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_log"
+                    },
+                    {
+                        "words":  [
+                                      "brett",
+                                      "bretter",
+                                      "holzbretter",
+                                      "holzbrett",
+                                      "planke",
+                                      "planken",
+                                      "holzplanken",
+                                      "planks"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_planks"
+                    },
+                    {
+                        "words":  [
+                                      "blatt",
+                                      "blätter",
+                                      "laub",
+                                      "laubblock",
+                                      "baumlaub",
+                                      "baumblätter",
+                                      "blätterblock",
+                                      "foliage"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_leaves"
+                    },
+                    {
+                        "words":  [
+                                      "stein",
+                                      "steine",
+                                      "steinblock",
+                                      "steinblöcke",
+                                      "fels",
+                                      "felsen"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:stone"
+                    },
+                    {
+                        "words":  [
+                                      "bruchstein",
+                                      "bruchsteine",
+                                      "pflasterstein",
+                                      "pflastersteine",
+                                      "cobble",
+                                      "cobblestone"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:cobblestone"
+                    },
+                    {
+                        "words":  [
+                                      "erde",
+                                      "erdblock",
+                                      "erdblöcke",
+                                      "dreck",
+                                      "boden",
+                                      "graserde",
+                                      "dirt"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dirt"
+                    },
+                    {
+                        "words":  [
+                                      "sand",
+                                      "sandblock",
+                                      "sandblöcke"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:sand"
+                    },
+                    {
+                        "words":  [
+                                      "kies",
+                                      "kiesblock",
+                                      "kiesblöcke",
+                                      "schotter",
+                                      "gravel"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:gravel"
+                    },
+                    {
+                        "words":  [
+                                      "glas",
+                                      "glasblock",
+                                      "glasblöcke"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:glass"
+                    },
+                    {
+                        "words":  [
+                                      "ziegel",
+                                      "ziegelstein",
+                                      "ziegelsteine",
+                                      "ziegelblock",
+                                      "backstein",
+                                      "backsteine",
+                                      "bricks"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:bricks"
+                    },
+                    {
+                        "words":  [
+                                      "schnee",
+                                      "schneeblock",
+                                      "schneeblöcke"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:snow_block"
+                    },
+                    {
+                        "words":  [
+                                      "eis",
+                                      "eisblock",
+                                      "eisblöcke"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:ice"
+                    },
+                    {
+                        "words":  [
+                                      "magma",
+                                      "magmablock",
+                                      "magmablöcke"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:magma_block"
+                    },
+                    {
+                        "words":  [
+                                      "seetang",
+                                      "kelp",
+                                      "seegras",
+                                      "alge",
+                                      "algen",
+                                      "wasserpflanze",
+                                      "wasserpflanzen"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:kelp"
+                    },
+                    {
+                        "words":  [
+                                      "wasser",
+                                      "wasserquelle",
+                                      "wasserquellen"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:water"
+                    },
+                    {
+                        "words":  [
+                                      "lava",
+                                      "lavaquelle",
+                                      "lavaquellen"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:lava"
+                    },
+                    {
+                        "words":  [
+                                      "wolle",
+                                      "wollblock",
+                                      "wollblöcke",
+                                      "wool"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_wool"
+                    },
+                    {
+                        "words":  [
+                                      "beton",
+                                      "betonblock",
+                                      "betonblöcke",
+                                      "concrete"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_concrete"
+                    },
+                    {
+                        "words":  [
+                                      "terrakotta",
+                                      "keramik",
+                                      "keramikblock",
+                                      "tonblock",
+                                      "gebrannter ton",
+                                      "terracotta"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_terracotta"
+                    },
+                    {
+                        "words":  [
+                                      "fackel",
+                                      "fackeln",
+                                      "torch",
+                                      "torches"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:torch"
+                    },
+                    {
+                        "words":  [
+                                      "schiene",
+                                      "schienen",
+                                      "gleis",
+                                      "gleise",
+                                      "rail",
+                                      "rails"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:rail"
+                    },
+                    {
+                        "words":  [
+                                      "blume",
+                                      "blumen",
+                                      "blüte",
+                                      "blüten",
+                                      "blumenblock",
+                                      "flower",
+                                      "flowers"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dandelion"
+                    },
+                    {
+                        "words":  [
+                                      "koralle",
+                                      "korallen",
+                                      "korallenblock",
+                                      "korallenblöcke",
+                                      "coral"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:tube_coral_block"
+                    },
+                    {
+                        "words":  [
+                                      "truhe",
+                                      "truhen",
+                                      "kiste",
+                                      "kisten",
+                                      "lagertruhe",
+                                      "chest",
+                                      "chests"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:chest"
+                    },
+                    {
+                        "words":  [
+                                      "werkbank",
+                                      "werktisch",
+                                      "craftingtisch",
+                                      "crafting tisch",
+                                      "crafting table",
+                                      "craftingtable"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:crafting_table"
+                    },
+                    {
+                        "words":  [
+                                      "zaubertisch",
+                                      "verzauberungstisch",
+                                      "verzaubertisch",
+                                      "enchantingtisch",
+                                      "enchanting table",
+                                      "enchantment table"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:enchanting_table"
+                    },
+                    {
+                        "words":  [
+                                      "ofen",
+                                      "öfen",
+                                      "schmelzofen",
+                                      "furnace"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:furnace"
+                    },
+                    {
+                        "words":  [
+                                      "trichter",
+                                      "hopper",
+                                      "item hopper"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:hopper"
+                    },
+                    {
+                        "words":  [
+                                      "werfer",
+                                      "dispenser"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dispenser"
+                    },
+                    {
+                        "words":  [
+                                      "spender",
+                                      "dropper"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:dropper"
+                    },
+                    {
+                        "words":  [
+                                      "werker",
+                                      "crafter",
+                                      "autocrafter",
+                                      "auto crafter"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:crafter"
+                    },
+                    {
+                        "words":  [
+                                      "spawner",
+                                      "mobspawner",
+                                      "mob spawner",
+                                      "monsterspawner",
+                                      "monster spawner"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:spawner"
+                    },
+                    {
+                        "words":  [
+                                      "prüfungs spawner",
+                                      "prüfungsspawner",
+                                      "prüfungs-spawner",
+                                      "trial spawner"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:trial_spawner"
+                    },
+                    {
+                        "words":  [
+                                      "tresor",
+                                      "prüfungstresor",
+                                      "prüfungs tresor",
+                                      "vault",
+                                      "trial vault"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:vault"
+                    },
+                    {
+                        "words":  [
+                                      "leuchtfeuer",
+                                      "beacon",
+                                      "beaconblock"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:beacon"
+                    },
+                    {
+                        "words":  [
+                                      "bücherregal",
+                                      "bücherregale",
+                                      "buchregal",
+                                      "regal",
+                                      "bookshelf"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:bookshelf"
+                    },
+                    {
+                        "words":  [
+                                      "shulkerkiste",
+                                      "shulker kiste",
+                                      "shulkerbox",
+                                      "shulker box",
+                                      "shulkerkisten"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:shulker_box"
+                    },
+                    {
+                        "words":  [
+                                      "endertruhe",
+                                      "ender truhe",
+                                      "enderkiste",
+                                      "ender kiste",
+                                      "ender chest",
+                                      "end chest"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:ender_chest"
+                    },
+                    {
+                        "words":  [
+                                      "rüstungsständer",
+                                      "rüstungsstaender",
+                                      "rüstungshalter",
+                                      "armorstand",
+                                      "armor stand"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:armor_stand"
+                    },
+                    {
+                        "words":  [
+                                      "schild",
+                                      "schilder",
+                                      "holzschild",
+                                      "holzschilder",
+                                      "sign",
+                                      "signs"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_sign"
+                    },
+                    {
+                        "words":  [
+                                      "tür",
+                                      "türen",
+                                      "holztür",
+                                      "holztüren",
+                                      "door",
+                                      "doors"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:oak_door"
+                    },
+                    {
+                        "words":  [
+                                      "bett",
+                                      "betten",
+                                      "bed",
+                                      "beds"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:white_bed"
+                    },
+                    {
+                        "words":  [
+                                      "schwert",
+                                      "schwerter",
+                                      "klinge",
+                                      "klingen",
+                                      "sword",
+                                      "swords"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_sword"
+                    },
+                    {
+                        "words":  [
+                                      "spitzhacke",
+                                      "spitzhacken",
+                                      "pickaxe",
+                                      "pickaxes",
+                                      "picke"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_pickaxe"
+                    },
+                    {
+                        "words":  [
+                                      "axt",
+                                      "äxte",
+                                      "beil",
+                                      "beile",
+                                      "axe",
+                                      "axes"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_axe"
+                    },
+                    {
+                        "words":  [
+                                      "schaufel",
+                                      "schaufeln",
+                                      "spaten",
+                                      "shovel",
+                                      "shovels"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_shovel"
+                    },
+                    {
+                        "words":  [
+                                      "hacke",
+                                      "hacken",
+                                      "feldhacke",
+                                      "hoe",
+                                      "hoes"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_hoe"
+                    },
+                    {
+                        "words":  [
+                                      "helm",
+                                      "helme",
+                                      "helmet",
+                                      "helmets"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_helmet"
+                    },
+                    {
+                        "words":  [
+                                      "brustplatte",
+                                      "brustplatten",
+                                      "brustpanzer",
+                                      "harnisch",
+                                      "chestplate",
+                                      "chest plate"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_chestplate"
+                    },
+                    {
+                        "words":  [
+                                      "beinschutz",
+                                      "beinlinge",
+                                      "hose",
+                                      "hosen",
+                                      "leggings",
+                                      "leg armor"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_leggings"
+                    },
+                    {
+                        "words":  [
+                                      "stiefel",
+                                      "schuhe",
+                                      "boots",
+                                      "shoes"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_boots"
+                    },
+                    {
+                        "words":  [
+                                      "goldener apfel",
+                                      "goldene äpfel",
+                                      "goldapfel",
+                                      "goldäpfel",
+                                      "gapple",
+                                      "golden apple"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:golden_apple"
+                    },
+                    {
+                        "words":  [
+                                      "verzauberter goldener apfel",
+                                      "verzauberter goldapfel",
+                                      "notch apfel",
+                                      "notchapfel",
+                                      "gottapfel",
+                                      "god apple",
+                                      "enchanted gapple"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:enchanted_golden_apple"
+                    },
+                    {
+                        "words":  [
+                                      "enderperle",
+                                      "enderperlen",
+                                      "perle",
+                                      "perlen",
+                                      "ender pearl",
+                                      "e pearl",
+                                      "epearl"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:ender_pearl"
+                    },
+                    {
+                        "words":  [
+                                      "elytren",
+                                      "elytra",
+                                      "flügel",
+                                      "fluegel",
+                                      "wings"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:elytra"
+                    },
+                    {
+                        "words":  [
+                                      "totem",
+                                      "totems",
+                                      "totem der unsterblichkeit",
+                                      "unsterblichkeitstotem",
+                                      "undying totem"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:totem_of_undying"
+                    },
+                    {
+                        "words":  [
+                                      "namensschild",
+                                      "namensschilder",
+                                      "namensetikett",
+                                      "name tag",
+                                      "nametag"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:name_tag"
+                    },
+                    {
+                        "words":  [
+                                      "leine",
+                                      "leinen",
+                                      "lead",
+                                      "leash"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:lead"
+                    },
+                    {
+                        "words":  [
+                                      "angel",
+                                      "angeln",
+                                      "angelrute",
+                                      "angelruten",
+                                      "fishing rod",
+                                      "fishing pole"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:fishing_rod"
+                    },
+                    {
+                        "words":  [
+                                      "rakete",
+                                      "raketen",
+                                      "feuerwerksrakete",
+                                      "feuerwerksraketen",
+                                      "feuerwerk",
+                                      "firework",
+                                      "rocket"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:firework_rocket"
+                    },
+                    {
+                        "words":  [
+                                      "tnt",
+                                      "dynamit",
+                                      "sprengstoff"
+                                  ],
+                        "type":  "block",
+                        "target":  "minecraft:tnt"
+                    },
+                    {
+                        "words":  [
+                                      "erfahrungsfläschchen",
+                                      "erfahrungsflasche",
+                                      "erfahrungsflaschen",
+                                      "xp flasche",
+                                      "xp flaschen",
+                                      "exp flasche",
+                                      "experience bottle"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:experience_bottle"
+                    },
+                    {
+                        "words":  [
+                                      "knochenmehl",
+                                      "knochenpulver",
+                                      "bonemeal",
+                                      "bone meal"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:bone_meal"
+                    },
+                    {
+                        "words":  [
+                                      "schleimball",
+                                      "schleimbälle",
+                                      "schleimkugel",
+                                      "slimeball",
+                                      "slime ball"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:slime_ball"
+                    },
+                    {
+                        "words":  [
+                                      "schwarzpulver",
+                                      "schießpulver",
+                                      "gunpowder",
+                                      "gun powder"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:gunpowder"
+                    },
+                    {
+                        "words":  [
+                                      "lohenrute",
+                                      "lohenruten",
+                                      "blazerute",
+                                      "blaze rute",
+                                      "blaze rod"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:blaze_rod"
+                    },
+                    {
+                        "words":  [
+                                      "netherwarze",
+                                      "netherwarzen",
+                                      "nether wart",
+                                      "nether warts"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:nether_wart"
+                    },
+                    {
+                        "words":  [
+                                      "enderkristall",
+                                      "enderkristalle",
+                                      "endkristall",
+                                      "end crystal",
+                                      "ender crystal"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:end_crystal"
+                    },
+                    {
+                        "words":  [
+                                      "schallplatte",
+                                      "schallplatten",
+                                      "musikscheibe",
+                                      "musikscheiben",
+                                      "platte",
+                                      "music disc",
+                                      "record"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:music_disc_13"
+                    },
+                    {
+                        "words":  [
+                                      "boot",
+                                      "boote",
+                                      "holzboot",
+                                      "holzboote",
+                                      "boat",
+                                      "boats"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:oak_boat"
+                    },
+                    {
+                        "words":  [
+                                      "lore",
+                                      "loren",
+                                      "minecart",
+                                      "mine cart"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:minecart"
+                    },
+                    {
+                        "words":  [
+                                      "spawn ei",
+                                      "spawnei",
+                                      "spawn eier",
+                                      "spawneier",
+                                      "mob ei",
+                                      "mob eier",
+                                      "spawn egg"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:pig_spawn_egg"
+                    },
+                    {
+                        "words":  [
+                                      "schmiedevorlage",
+                                      "schmiedevorlagen",
+                                      "rüstungsvorlage",
+                                      "rüstungsschmiedevorlage",
+                                      "template",
+                                      "smithing template",
+                                      "armor trim"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:netherite_upgrade_smithing_template"
+                    },
+                    {
+                        "words":  [
+                                      "töpferscherbe",
+                                      "töpferscherben",
+                                      "keramikscherbe",
+                                      "keramikscherben",
+                                      "scherbe",
+                                      "scherben",
+                                      "pottery sherd"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:angler_pottery_sherd"
+                    },
+                    {
+                        "words":  [
+                                      "farbstoff",
+                                      "farbstoffe",
+                                      "farbe",
+                                      "farben",
+                                      "dye",
+                                      "dyes"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:white_dye"
+                    },
+                    {
+                        "words":  [
+                                      "pilzsuppe",
+                                      "suppe",
+                                      "suppen",
+                                      "eintopf",
+                                      "eintöpfe",
+                                      "stew"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:mushroom_stew"
+                    },
+                    {
+                        "words":  [
+                                      "rossharnisch",
+                                      "pferderüstung",
+                                      "pferde rüstung",
+                                      "horse armor",
+                                      "horse armour"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:iron_horse_armor"
+                    },
+                    {
+                        "words":  [
+                                      "kopf",
+                                      "köpfe",
+                                      "mobkopf",
+                                      "mobköpfe",
+                                      "schädel",
+                                      "skull",
+                                      "head"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:skeleton_skull"
+                    },
+                    {
+                        "words":  [
+                                      "fleisch",
+                                      "fleischstück",
+                                      "fleischstücke",
+                                      "rohes fleisch",
+                                      "gebratenes fleisch",
+                                      "grillfleisch",
+                                      "meat"
+                                  ],
+                        "type":  "item",
+                        "target":  "minecraft:beef"
+                    },
+                    {
+                        "words":  [
+                                      "zombifizierter piglin",
+                                      "zombiepiglin",
+                                      "zombie piglin",
+                                      "zombie pigman",
+                                      "pigman",
+                                      "zombiemann"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:zombified_piglin"
+                    },
+                    {
+                        "words":  [
+                                      "schneegolem",
+                                      "schnee golem",
+                                      "schneemann",
+                                      "snow golem",
+                                      "snowman"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:snow_golem"
+                    },
+                    {
+                        "words":  [
+                                      "eisengolem",
+                                      "eisen golem",
+                                      "eisenriese",
+                                      "iron golem"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:iron_golem"
+                    },
+                    {
+                        "words":  [
+                                      "enderdrache",
+                                      "enderdrachen",
+                                      "ender drache",
+                                      "drache",
+                                      "drachen",
+                                      "end dragon",
+                                      "ender dragon"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:ender_dragon"
+                    },
+                    {
+                        "words":  [
+                                      "wither",
+                                      "witherboss",
+                                      "wither boss"
+                                  ],
+                        "type":  "entity",
+                        "target":  "minecraft:wither"
+                    },
+                    {
+                        "words":  [
+                                      "heiltrank",
+                                      "heilungstrank",
+                                      "heilungspotion",
+                                      "trank der heilung",
+                                      "healing potion",
+                                      "health potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:healing"
+                    },
+                    {
+                        "words":  [
+                                      "schadenstrank",
+                                      "schadens trank",
+                                      "schadenspotion",
+                                      "trank des schadens",
+                                      "harming potion",
+                                      "damage potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:harming"
+                    },
+                    {
+                        "words":  [
+                                      "stärketrank",
+                                      "stärke trank",
+                                      "stärkepotion",
+                                      "krafttrank",
+                                      "trank der stärke",
+                                      "strength potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:strength"
+                    },
+                    {
+                        "words":  [
+                                      "schnelligkeitstrank",
+                                      "geschwindigkeitstrank",
+                                      "speedtrank",
+                                      "trank der schnelligkeit",
+                                      "speed potion",
+                                      "swiftness potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:swiftness"
+                    },
+                    {
+                        "words":  [
+                                      "feuerresistenztrank",
+                                      "feuerresistenz trank",
+                                      "feuerschutztrank",
+                                      "feuertrank",
+                                      "trank der feuerresistenz",
+                                      "fire resistance potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:fire_resistance"
+                    },
+                    {
+                        "words":  [
+                                      "nachtsichttrank",
+                                      "nachtsicht trank",
+                                      "nachtsichtpotion",
+                                      "trank der nachtsicht",
+                                      "night vision potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:night_vision"
+                    },
+                    {
+                        "words":  [
+                                      "unsichtbarkeitstrank",
+                                      "unsichtbarkeits trank",
+                                      "unsichtbarkeitspotion",
+                                      "invistrank",
+                                      "trank der unsichtbarkeit",
+                                      "invisibility potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:invisibility"
+                    },
+                    {
+                        "words":  [
+                                      "unterwasseratmungstrank",
+                                      "wasseratmungstrank",
+                                      "atemtrank",
+                                      "trank der unterwasseratmung",
+                                      "water breathing potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:water_breathing"
+                    },
+                    {
+                        "words":  [
+                                      "langsamfalltrank",
+                                      "sanfter fall trank",
+                                      "trank des sanften falls",
+                                      "slow falling potion"
+                                  ],
+                        "type":  "potion",
+                        "target":  "minecraft:slow_falling"
+                    }
+                ]
+}
