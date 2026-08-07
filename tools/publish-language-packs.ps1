@@ -66,6 +66,30 @@ function Quote-NativeArgument([string]$Value) {
     return '"' + $Value.Replace('"', '\"') + '"'
 }
 
+function Test-GitHubReleaseAsset(
+    [string]$GitHubCli,
+    [string]$Tag,
+    [IO.FileInfo]$Asset
+) {
+    $previousPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "Continue"
+        $json = ((& $GitHubCli release view $Tag --repo $Repository --json assets 2>$null) -join [Environment]::NewLine).Trim()
+        if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($json)) { return $false }
+        $release = $json | ConvertFrom-Json
+        foreach ($remoteAsset in @($release.assets)) {
+            if ([string]$remoteAsset.name -eq $Asset.Name -and [long]$remoteAsset.size -eq $Asset.Length) {
+                return $true
+            }
+        }
+        return $false
+    } catch {
+        return $false
+    } finally {
+        $ErrorActionPreference = $previousPreference
+    }
+}
+
 function Invoke-GitHubUpload(
     [string]$GitHubCli,
     [string]$Tag,
@@ -75,6 +99,10 @@ function Invoke-GitHubUpload(
 ) {
     $arguments = @("release", "upload", $Tag, $Asset.FullName, "--repo", $Repository, "--clobber")
     $argumentLine = ($arguments | ForEach-Object { Quote-NativeArgument ([string]$_) }) -join ' '
+    if (Test-GitHubReleaseAsset -GitHubCli $GitHubCli -Tag $Tag -Asset $Asset) {
+        Write-Host "  [$Index/$Total] $($Asset.Name) · déjà présent et complet sur GitHub" -ForegroundColor Green
+        return
+    }
     for ($attempt = 1; $attempt -le 5; $attempt++) {
         Write-Host "  [$Index/$Total] $($Asset.Name) · $([Math]::Round($Asset.Length / 1MB, 1)) Mo · tentative $attempt/5" -ForegroundColor Cyan
         $process = Start-Process -FilePath $GitHubCli -ArgumentList $argumentLine -NoNewWindow -PassThru
@@ -89,9 +117,15 @@ function Invoke-GitHubUpload(
             $process.Refresh()
             $frame++
         }
+        $process.WaitForExit()
+        $process.Refresh()
         Write-Progress -Id 7 -Activity "Téléversement GitHub $Index/$Total" -Completed
         if ($process.ExitCode -eq 0) {
             Write-Host "       envoyé avec succès" -ForegroundColor Green
+            return
+        }
+        if (Test-GitHubReleaseAsset -GitHubCli $GitHubCli -Tag $Tag -Asset $Asset) {
+            Write-Host "       fichier confirmé sur GitHub malgré la réponse interrompue" -ForegroundColor Green
             return
         }
         if ($attempt -lt 5) {
