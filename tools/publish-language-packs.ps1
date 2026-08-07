@@ -36,6 +36,73 @@ function Test-NativeCommand([string]$Program, [string[]]$Arguments) {
     }
 }
 
+function Wait-PullRequestChecks([string]$GitHubCli, [string]$PullRequestUrl) {
+    for ($attempt = 1; $attempt -le 12; $attempt++) {
+        $previousPreference = $ErrorActionPreference
+        try {
+            $ErrorActionPreference = "Continue"
+            $checkText = ((& $GitHubCli pr checks $PullRequestUrl --repo $Repository --json name,state 2>$null) -join [Environment]::NewLine).Trim()
+        } finally {
+            $ErrorActionPreference = $previousPreference
+        }
+        $checkRows = @()
+        if ($checkText.StartsWith('[')) {
+            $checkRows = @($checkText | ConvertFrom-Json)
+        }
+        if ($checkRows.Count -gt 0) {
+            Write-Progress -Id 6 -Activity "Contrôles GitHub" -Completed
+            Invoke-Checked $GitHubCli @("pr", "checks", $PullRequestUrl, "--repo", $Repository, "--watch", "--interval", "10")
+            return
+        }
+        Write-Progress -Id 6 -Activity "Contrôles GitHub" -Status "GitHub prépare les contrôles · tentative $attempt/12" -PercentComplete ([int](100 * $attempt / 12))
+        Start-Sleep -Seconds 5
+    }
+    Write-Progress -Id 6 -Activity "Contrôles GitHub" -Completed
+    Write-Host "Aucun contrôle GitHub n'a été annoncé après 60 secondes ; la validation locale a réussi, la publication continue." -ForegroundColor Yellow
+}
+
+function Quote-NativeArgument([string]$Value) {
+    if ($Value -notmatch '[\s"]') { return $Value }
+    return '"' + $Value.Replace('"', '\"') + '"'
+}
+
+function Invoke-GitHubUpload(
+    [string]$GitHubCli,
+    [string]$Tag,
+    [IO.FileInfo]$Asset,
+    [int]$Index,
+    [int]$Total
+) {
+    $arguments = @("release", "upload", $Tag, $Asset.FullName, "--repo", $Repository, "--clobber")
+    $argumentLine = ($arguments | ForEach-Object { Quote-NativeArgument ([string]$_) }) -join ' '
+    for ($attempt = 1; $attempt -le 5; $attempt++) {
+        Write-Host "  [$Index/$Total] $($Asset.Name) · $([Math]::Round($Asset.Length / 1MB, 1)) Mo · tentative $attempt/5" -ForegroundColor Cyan
+        $process = Start-Process -FilePath $GitHubCli -ArgumentList $argumentLine -NoNewWindow -PassThru
+        $started = [DateTime]::Now
+        $spinner = @('|', '/', '-', '\')
+        $frame = 0
+        while (-not $process.HasExited) {
+            $elapsed = [DateTime]::Now - $started
+            $status = "{0} tentative {1}/5 · actif depuis {2:mm\:ss} · {3:N1} Mo" -f $spinner[$frame % $spinner.Count], $attempt, $elapsed, ($Asset.Length / 1MB)
+            Write-Progress -Id 7 -Activity "Téléversement GitHub $Index/$Total" -Status $status -PercentComplete -1
+            Start-Sleep -Seconds 1
+            $process.Refresh()
+            $frame++
+        }
+        Write-Progress -Id 7 -Activity "Téléversement GitHub $Index/$Total" -Completed
+        if ($process.ExitCode -eq 0) {
+            Write-Host "       envoyé avec succès" -ForegroundColor Green
+            return
+        }
+        if ($attempt -lt 5) {
+            $delay = 10 * $attempt
+            Write-Host "       connexion interrompue ; nouvelle tentative dans $delay secondes" -ForegroundColor Yellow
+            Start-Sleep -Seconds $delay
+        }
+    }
+    throw "Échec du téléversement de $($Asset.Name) après 5 tentatives. La release reste en brouillon et pourra être reprise."
+}
+
 function Get-GitHubCli {
     $command = Get-Command gh -ErrorAction SilentlyContinue
     if ($null -ne $command) { return $command.Source }
@@ -232,7 +299,7 @@ try {
         Invoke-Checked "git" @("fetch", "origin", "main")
         $publisherIsMerged = Test-NativeCommand "git" @("cat-file", "-e", "origin/main:tools/publish-language-packs.ps1")
         if (-not $publisherIsMerged) {
-            throw "Fusionne d'abord la pull request des packs Small/Normal dans main : https://github.com/$Repository/pull/new/codex/language-model-variants"
+            throw "Fusionne d'abord la pull request des packs Small/Normal dans main, puis relance la publication."
         }
         Invoke-Checked "git" @("switch", "main")
         Invoke-Checked "git" @("pull", "--ff-only", "origin", "main")
@@ -257,15 +324,21 @@ try {
         }
     }
 
+    Write-Host ""
+    Write-Host "[1/7] Préparation des langues" -ForegroundColor Cyan
     if ($dropLanguages.Count -gt 0) {
         & $importerPath -DropRoot $dropRoot
     }
 
+    Write-Host ""
+    Write-Host "[2/7] Construction des archives" -ForegroundColor Cyan
     if (-not $SkipBuild) {
         & $builderPath -ReleaseTag $ReleaseTag
     } else {
         Write-Host "Construction ignorée (-SkipBuild)."
     }
+    Write-Host ""
+    Write-Host "[3/7] Validation du catalogue et des empreintes" -ForegroundColor Cyan
     Invoke-Checked "python" @($validatorPath)
 
     if ($SkipBuild) {
@@ -316,6 +389,8 @@ try {
     $prUrl = $null
 
     if ($hasCatalogChanges) {
+        Write-Host ""
+        Write-Host "[4/7] Création de la branche et de la pull request" -ForegroundColor Cyan
         $branch = "release/$safeTag-$([DateTime]::Now.ToString('yyyyMMdd-HHmmss'))"
         Invoke-Checked "git" @("switch", "-c", $branch)
         Invoke-Checked "git" @("diff", "--cached", "--check")
@@ -338,18 +413,22 @@ La publication de la release est effectuée automatiquement après validation de
         if ($LASTEXITCODE -ne 0) { throw "Impossible de créer la pull request." }
         $prUrl = [string]($prOutput | Select-Object -Last 1)
         Write-Host "Pull request : $prUrl" -ForegroundColor Cyan
-        Invoke-Checked $gh @("pr", "checks", $prUrl, "--repo", $Repository, "--watch", "--interval", "10")
+        Write-Host ""
+        Write-Host "[5/7] Contrôles GitHub" -ForegroundColor Cyan
+        Wait-PullRequestChecks -GitHubCli $gh -PullRequestUrl $prUrl
     } else {
         Write-Host "Le catalogue est déjà à jour : publication de la release sans PR inutile." -ForegroundColor Yellow
     }
 
-    $releaseArguments = [Collections.Generic.List[string]]::new()
-    foreach ($argument in @("release", "create", $ReleaseTag, "--repo", $Repository, "--target", "main", "--title", "Voice Destroy language packs $ReleaseTag", "--notes-file", $notesPath, "--draft")) {
-        $releaseArguments.Add($argument)
+    Write-Host ""
+    Write-Host "[6/7] Téléversement des packs vers GitHub" -ForegroundColor Cyan
+    Invoke-Checked $gh @("release", "create", $ReleaseTag, "--repo", $Repository, "--target", "main", "--title", "Voice Destroy language packs $ReleaseTag", "--notes-file", $notesPath, "--draft")
+    for ($assetIndex = 0; $assetIndex -lt $assets.Count; $assetIndex++) {
+        Invoke-GitHubUpload -GitHubCli $gh -Tag $ReleaseTag -Asset $assets[$assetIndex] -Index ($assetIndex + 1) -Total $assets.Count
     }
-    foreach ($asset in $assets) { $releaseArguments.Add($asset.FullName) }
-    Invoke-Checked $gh ($releaseArguments.ToArray())
 
+    Write-Host ""
+    Write-Host "[7/7] Fusion et publication du catalogue" -ForegroundColor Cyan
     if ($hasCatalogChanges) {
         Invoke-Checked $gh @("pr", "merge", $prUrl, "--repo", $Repository, "--squash", "--delete-branch")
         Invoke-Checked "git" @("switch", "main")

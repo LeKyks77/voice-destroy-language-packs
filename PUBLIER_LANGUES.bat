@@ -7,7 +7,7 @@ echo ============================================================
 echo        VOICE DESTROY - PUBLICATION DES LANGUES
 echo ============================================================
 echo.
-echo Place les dossiers de langues dans "a_publier" avant de continuer.
+echo Pour une nouvelle langue, lance d'abord "AJOUTER_UNE_LANGUE.bat".
 echo GitHub demandera une connexion dans le navigateur la premiere fois.
 echo.
 

@@ -119,6 +119,41 @@ function Get-VariantDefaults([string]$VariantId) {
     }
 }
 
+function Convert-WordsCsvToDictionary([string]$CsvPath, [string]$LanguageId, [string]$DestinationPath) {
+    $rows = @(Import-Csv -LiteralPath $CsvPath -Delimiter ';' -Encoding UTF8)
+    if ($rows.Count -eq 0) { throw "Le tableau de mots est vide : $CsvPath" }
+    $aliases = [Collections.Generic.List[object]]::new()
+    $allowedTypes = @("block", "item", "entity", "potion", "family")
+    foreach ($row in $rows) {
+        $words = @(
+            ([string]$row.words).Split('|') |
+                ForEach-Object { $_.Trim() } |
+                Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+                Select-Object -Unique
+        )
+        $type = ([string]$row.type).Trim().ToLowerInvariant()
+        $target = ([string]$row.target).Trim().ToLowerInvariant()
+        if ($words.Count -eq 0) { throw "Une ligne de mots est vide dans $CsvPath" }
+        if ($allowedTypes -notcontains $type) { throw "Type invalide '$type' dans $CsvPath" }
+        if ($target -notmatch '^[a-z0-9_.-]+:[a-z0-9_./-]+$') { throw "Cible Minecraft invalide '$target'" }
+        $alias = [ordered]@{
+            words = $words
+            type = $type
+            target = $target
+        }
+        $notes = ([string]$row.notes).Trim()
+        if (-not [string]::IsNullOrWhiteSpace($notes)) { $alias["notes"] = $notes }
+        $aliases.Add($alias)
+    }
+    $dictionary = [ordered]@{
+        '$schema' = "../../schemas/dictionary.schema.json"
+        schema_version = 1
+        language = $LanguageId
+        aliases = $aliases
+    }
+    Write-Utf8Json -Path $DestinationPath -Value $dictionary
+}
+
 [IO.Directory]::CreateDirectory($DropRoot) | Out-Null
 [IO.Directory]::CreateDirectory($downloadsRoot) | Out-Null
 [IO.Directory]::CreateDirectory($sourcesRoot) | Out-Null
@@ -140,16 +175,21 @@ $imported = [Collections.Generic.List[string]]::new()
 foreach ($folder in $languageFolders) {
     $definitionPath = Join-Path $folder.FullName "language.json"
     $dictionaryPath = Join-Path $folder.FullName "dictionary.json"
+    $wordsCsvPath = Join-Path $folder.FullName "mots.csv"
     if (-not (Test-Path -LiteralPath $definitionPath -PathType Leaf)) {
         throw "Fichier absent : $definitionPath"
     }
-    if (-not (Test-Path -LiteralPath $dictionaryPath -PathType Leaf)) {
-        throw "Fichier absent : $dictionaryPath"
-    }
 
     $definition = Get-Content -Raw -Encoding utf8 -LiteralPath $definitionPath | ConvertFrom-Json
-    $dictionary = Get-Content -Raw -Encoding utf8 -LiteralPath $dictionaryPath | ConvertFrom-Json
     $languageId = [string]$definition.id
+    if (Test-Path -LiteralPath $wordsCsvPath -PathType Leaf) {
+        Write-Host "Conversion automatique de mots.csv pour $languageId"
+        Convert-WordsCsvToDictionary -CsvPath $wordsCsvPath -LanguageId $languageId -DestinationPath $dictionaryPath
+    }
+    if (-not (Test-Path -LiteralPath $dictionaryPath -PathType Leaf)) {
+        throw "Ajoute mots.csv avec l'assistant AJOUTER_UNE_LANGUE.bat."
+    }
+    $dictionary = Get-Content -Raw -Encoding utf8 -LiteralPath $dictionaryPath | ConvertFrom-Json
     if ($languageId -notmatch '^[a-z]{2,3}_[a-z0-9]{2,8}$') {
         throw "Identifiant de langue invalide : $languageId (exemple : es_es)"
     }
