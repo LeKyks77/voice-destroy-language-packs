@@ -1,6 +1,7 @@
 ﻿[CmdletBinding()]
 param(
-    [string]$DropRoot
+    [string]$DropRoot,
+    [string[]]$LanguageIds = @()
 )
 
 $ErrorActionPreference = "Stop"
@@ -160,7 +161,10 @@ function Convert-WordsCsvToDictionary([string]$CsvPath, [string]$LanguageId, [st
 
 $languageFolders = @(
     Get-ChildItem -LiteralPath $DropRoot -Directory |
-        Where-Object { -not $_.Name.StartsWith('_') } |
+        Where-Object {
+            -not $_.Name.StartsWith('_') -and
+            ($LanguageIds.Count -eq 0 -or $LanguageIds -contains $_.Name)
+        } |
         Sort-Object Name
 )
 

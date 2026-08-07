@@ -61,9 +61,15 @@ Deux assistants Windows évitent désormais d'écrire les fichiers JSON à la ma
 Les fichiers `language.json` et `dictionary.json` sont produits automatiquement. Le caractère `|`
 sépare plusieurs synonymes dans `mots.csv`, par exemple `arena|arenilla`.
 
-Le programme vérifie la structure des modèles Vosk, calcule les tailles et SHA-256, construit les
-packs, crée une branche de publication et une pull request, attend la validation GitHub, fusionne
-la branche, téléverse les ZIP dans une release et publie le nouveau catalogue consommé par le jeu.
+Le programme vérifie la structure des modèles Vosk, calcule les tailles et SHA-256, puis construit
+uniquement les packs nouveaux ou dont la version a augmenté. Les packs inchangés conservent leur
+URL de release et ne sont ni reconstruits ni téléversés. Le programme crée ensuite une branche de
+publication et une pull request, attend la validation GitHub, fusionne la branche, téléverse les
+nouveaux ZIP dans une release et publie le catalogue consommé par le jeu.
+
+Une empreinte des sources détecte aussi les changements oubliés : si un dictionnaire, un modèle ou
+une description change sans nouvelle version du pack, la publication est bloquée avec une demande
+d'augmentation de version.
 Chaque extraction, compression, vérification et empreinte affiche une barre en pourcentage. Les
 téléversements affichent le fichier courant, un compteur et le temps écoulé.
 

@@ -216,13 +216,18 @@ function Stop-PreparedPublication([string[]]$Changes) {
 
 function Get-ReleaseNotes([string]$Tag) {
     $manifest = Get-Content -Raw -Encoding utf8 -LiteralPath (Join-Path $repoRoot "manifest.json") | ConvertFrom-Json
+    $expectedPrefix = "https://github.com/$Repository/releases/download/$Tag/"
     $lines = [Collections.Generic.List[string]]::new()
     $lines.Add("# Voice Destroy language packs $Tag")
     $lines.Add("")
-    $lines.Add("Packs de reconnaissance vocale vérifiés pour Voice Destroy.")
+    $lines.Add("Packs de reconnaissance vocale ajoutés ou mis à jour dans cette publication.")
     $lines.Add("")
     foreach ($language in $manifest.languages) {
-        $variants = @($language.variants | ForEach-Object { "$($_.name) ($([Math]::Round([long]$_.archive_size / 1MB, 1)) Mo)" })
+        $publishedVariants = @($language.variants | Where-Object {
+            ([string]$_.download_url).StartsWith($expectedPrefix, [StringComparison]::OrdinalIgnoreCase)
+        })
+        if ($publishedVariants.Count -eq 0) { continue }
+        $variants = @($publishedVariants | ForEach-Object { "$($_.name) ($([Math]::Round([long]$_.archive_size / 1MB, 1)) Mo)" })
         $lines.Add("- $($language.native_name) : $($variants -join ', ')")
     }
     $lines.Add("")
@@ -239,7 +244,7 @@ function Get-ManifestAssets([string]$Tag) {
         foreach ($variant in $language.variants) {
             $url = [string]$variant.download_url
             if (-not $url.StartsWith($expectedPrefix, [StringComparison]::OrdinalIgnoreCase)) {
-                throw "Le manifeste référence une autre release pour $($language.id)/$($variant.id) : $url"
+                continue
             }
             $fileName = [Uri]::UnescapeDataString($url.Substring($expectedPrefix.Length))
             if ([IO.Path]::GetFileName($fileName) -ne $fileName -or -not $seen.Add($fileName)) {
@@ -261,6 +266,65 @@ function Get-ManifestAssets([string]$Tag) {
         }
     }
     return $result.ToArray()
+}
+
+function Get-PendingDropLanguages([IO.DirectoryInfo[]]$Folders) {
+    $manifest = Get-Content -Raw -Encoding utf8 -LiteralPath (Join-Path $repoRoot "manifest.json") | ConvertFrom-Json
+    $publishedByKey = @{}
+    foreach ($language in $manifest.languages) {
+        foreach ($variant in $language.variants) {
+            $publishedByKey["$($language.id)/$($variant.id)"] = $variant
+        }
+    }
+
+    $pending = [Collections.Generic.List[IO.DirectoryInfo]]::new()
+    foreach ($folder in $Folders) {
+        $definitionPath = Join-Path $folder.FullName "language.json"
+        if (-not (Test-Path -LiteralPath $definitionPath -PathType Leaf)) {
+            $pending.Add($folder)
+            continue
+        }
+        $definition = Get-Content -Raw -Encoding utf8 -LiteralPath $definitionPath | ConvertFrom-Json
+        $variants = @($definition.variants)
+        $requiresImport = $variants.Count -eq 0
+        foreach ($variant in $variants) {
+            $previous = $publishedByKey["$($definition.id)/$($variant.id)"]
+            if ($null -eq $previous -or [string]$previous.version -ne [string]$definition.version) {
+                $requiresImport = $true
+                break
+            }
+        }
+        if ($requiresImport) {
+            $pending.Add($folder)
+        } else {
+            Write-Host "Déjà publié, dossier ignoré : $($folder.Name) $($definition.version)" -ForegroundColor DarkGray
+        }
+    }
+    return $pending.ToArray()
+}
+
+function Move-PublishedDropFolders([IO.DirectoryInfo[]]$Folders, [string]$Tag) {
+    if ($Folders.Count -eq 0) { return }
+    $safeTag = $Tag -replace '[^a-zA-Z0-9._-]', '-'
+    $dropFull = [IO.Path]::GetFullPath($dropRoot).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    $archiveRoot = [IO.Path]::GetFullPath((Join-Path $workRoot "published\$safeTag"))
+    [IO.Directory]::CreateDirectory($archiveRoot) | Out-Null
+    foreach ($folder in $Folders) {
+        $sourceFull = [IO.Path]::GetFullPath($folder.FullName)
+        if (-not $sourceFull.StartsWith($dropFull, [StringComparison]::OrdinalIgnoreCase)) {
+            throw "Dossier de langue hors de a_publier : $sourceFull"
+        }
+        if (-not (Test-Path -LiteralPath $sourceFull -PathType Container)) { continue }
+        $target = [IO.Path]::GetFullPath((Join-Path $archiveRoot $folder.Name))
+        if (-not $target.StartsWith($archiveRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
+            throw "Destination d'archivage invalide : $target"
+        }
+        if (Test-Path -LiteralPath $target) {
+            $target = "$target-$([DateTime]::Now.ToString('yyyyMMdd-HHmmss'))"
+        }
+        Move-Item -LiteralPath $sourceFull -Destination $target
+        Write-Host "Dossier publié archivé : $($folder.Name)" -ForegroundColor DarkGray
+    }
 }
 
 Push-Location $repoRoot
@@ -314,10 +378,11 @@ try {
     }
 
     [IO.Directory]::CreateDirectory($dropRoot) | Out-Null
-    $dropLanguages = @(Get-ChildItem -LiteralPath $dropRoot -Directory | Where-Object { -not $_.Name.StartsWith('_') })
+    $allDropLanguages = @(Get-ChildItem -LiteralPath $dropRoot -Directory | Where-Object { -not $_.Name.StartsWith('_') })
+    $dropLanguages = @(Get-PendingDropLanguages $allDropLanguages)
     if ($dropLanguages.Count -eq 0 -and -not $RepublishExisting) {
         if ($DryRun) {
-            Write-Host "Aucune nouvelle langue dans a_publier/ : vérification du catalogue existant."
+            Write-Host "Aucun pack nouveau ou avec une version différente dans a_publier/."
         } else {
             $answer = Read-Host "Aucune nouvelle langue trouvée. Republier toutes les langues existantes ? (O/N)"
             if ($answer -notmatch '^(o|oui|y|yes)$') { throw "Publication annulée." }
@@ -327,13 +392,14 @@ try {
     Write-Host ""
     Write-Host "[1/7] Préparation des langues" -ForegroundColor Cyan
     if ($dropLanguages.Count -gt 0) {
-        & $importerPath -DropRoot $dropRoot
+        $languageIds = @($dropLanguages | ForEach-Object { $_.Name })
+        & $importerPath -DropRoot $dropRoot -LanguageIds $languageIds
     }
 
     Write-Host ""
     Write-Host "[2/7] Construction des archives" -ForegroundColor Cyan
     if (-not $SkipBuild) {
-        & $builderPath -ReleaseTag $ReleaseTag
+        & $builderPath -ReleaseTag $ReleaseTag -ForceRebuild:$RepublishExisting
     } else {
         Write-Host "Construction ignorée (-SkipBuild)."
     }
@@ -346,7 +412,7 @@ try {
         $assets = @()
     } else {
         $assets = @(Get-ManifestAssets $ReleaseTag | Sort-Object Name)
-        if ($assets.Count -eq 0) { throw "Aucun pack final n'a été créé dans dist/." }
+        if ($assets.Count -eq 0) { throw "Aucun pack nouveau ou modifié à publier. Augmente la version du pack concerné si son contenu a changé." }
     }
 
     Write-Host ""
@@ -400,7 +466,8 @@ try {
         $prBody = @"
 ## Publication
 
-- reconstruit tous les packs de langues
+- construit uniquement les packs nouveaux ou modifiés
+- réutilise les liens des packs inchangés sans les téléverser
 - vérifie chaque modèle et chaque archive finale
 - met à jour les tailles et SHA-256 du catalogue
 - prépare la release `$ReleaseTag`
@@ -435,6 +502,7 @@ La publication de la release est effectuée automatiquement après validation de
         Invoke-Checked "git" @("pull", "--ff-only", "origin", "main")
     }
     Invoke-Checked $gh @("release", "edit", $ReleaseTag, "--repo", $Repository, "--draft=false", "--latest")
+    Move-PublishedDropFolders -Folders $dropLanguages -Tag $ReleaseTag
 
     Write-Host ""
     Write-Host "Publication terminée." -ForegroundColor Green

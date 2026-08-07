@@ -1,6 +1,7 @@
 ﻿[CmdletBinding()]
 param(
-    [string]$ReleaseTag = "packs-v1.1.0"
+    [string]$ReleaseTag = "packs-v1.1.0",
+    [switch]$ForceRebuild
 )
 
 $ErrorActionPreference = "Stop"
@@ -45,6 +46,77 @@ function Get-Sha256([string]$Path, [int]$ProgressId = 0, [string]$Activity = "Ca
         Write-Progress -Id $ProgressId -Activity $Activity -Completed
         $sha.Dispose()
         $stream.Dispose()
+    }
+}
+
+function Get-StringSha256([string]$Value) {
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try {
+        $bytes = [Text.UTF8Encoding]::new($false).GetBytes($Value)
+        return ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-', '')
+    } finally {
+        $sha.Dispose()
+    }
+}
+
+function Get-OptionalProperty([object]$Object, [string]$Name, $Default = $null) {
+    if ($null -eq $Object) { return $Default }
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -eq $property -or $null -eq $property.Value) { return $Default }
+    return $property.Value
+}
+
+function Get-SourceFingerprint(
+    [object]$Pack,
+    [object]$Variant,
+    [object]$ModelSource,
+    [string]$DictionaryPath
+) {
+    $dictionary = Get-Content -Raw -Encoding utf8 -LiteralPath $DictionaryPath | ConvertFrom-Json
+    $dictionaryCanonical = $dictionary | ConvertTo-Json -Depth 20 -Compress
+    $fingerprintData = [ordered]@{
+        schema_version = 1
+        id = [string]$Pack.id
+        language = [string]$Pack.language
+        native_name = [string]$Pack.native_name
+        version = [string]$Pack.version
+        engine = [string]$Pack.engine
+        min_mod_version = [string]$Pack.min_mod_version
+        dictionary_sha256 = Get-StringSha256 $dictionaryCanonical
+        variant = [ordered]@{
+            id = [string]$Variant.id
+            name = [string]$Variant.name
+            description = [string]$Variant.description
+            hardware = [string]$Variant.hardware
+            runtime_memory_mb = [int]$Variant.runtime_memory_mb
+            recommended = [bool]$Variant.recommended
+            model_name = [string]$Variant.model.name
+            model_license = [string]$Variant.model.license
+            model_source_page = [string]$Variant.model.source_page
+            model_upstream_url = [string]$Variant.model.upstream_url
+            model_archive_sha256 = ([string]$ModelSource.sha256).ToUpperInvariant()
+            model_root = [string]$ModelSource.root
+        }
+    }
+    return Get-StringSha256 ($fingerprintData | ConvertTo-Json -Depth 10 -Compress)
+}
+
+function New-ReusedManifestVariant([object]$Previous, [string]$Fingerprint) {
+    return [ordered]@{
+        id = [string]$Previous.id
+        name = [string]$Previous.name
+        version = [string]$Previous.version
+        engine = [string]$Previous.engine
+        download_url = [string]$Previous.download_url
+        archive_size = [long]$Previous.archive_size
+        sha256 = ([string]$Previous.sha256).ToUpperInvariant()
+        source_fingerprint = $Fingerprint
+        license = [string]$Previous.license
+        min_mod_version = [string]$Previous.min_mod_version
+        description = [string]$Previous.description
+        hardware = [string]$Previous.hardware
+        runtime_memory_mb = [int]$Previous.runtime_memory_mb
+        recommended = [bool]$Previous.recommended
     }
 }
 
@@ -217,12 +289,72 @@ $sourceIndex = Get-Content -Raw -Encoding utf8 -LiteralPath $sourceIndexPath | C
 [IO.Directory]::CreateDirectory($distRoot) | Out-Null
 $manifestLanguages = [Collections.Generic.List[object]]::new()
 $languageDirectories = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot "sources") -Directory | Sort-Object Name)
-$totalVariants = 0
-foreach ($directory in $languageDirectories) {
-    $descriptor = Get-Content -Raw -Encoding utf8 -LiteralPath (Join-Path $directory.FullName "pack.json") | ConvertFrom-Json
-    $totalVariants += @($descriptor.variants).Count
+$previousByKey = @{}
+if (Test-Path -LiteralPath $manifestPath -PathType Leaf) {
+    $previousManifest = Get-Content -Raw -Encoding utf8 -LiteralPath $manifestPath | ConvertFrom-Json
+    foreach ($language in $previousManifest.languages) {
+        foreach ($variant in $language.variants) {
+            $previousByKey["$($language.id)/$($variant.id)"] = $variant
+        }
+    }
 }
+
+$fingerprintsByKey = @{}
+$buildKeys = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+$bootstrapKeys = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+foreach ($directory in $languageDirectories) {
+    $pack = Get-Content -Raw -Encoding utf8 -LiteralPath (Join-Path $directory.FullName "pack.json") | ConvertFrom-Json
+    $dictionaryPath = Join-Path $directory.FullName $pack.dictionary
+    $languageId = [string]$pack.id
+    $languageSources = $sourceIndex.$languageId
+    if ($null -eq $languageSources) { throw "Missing model source index for $($pack.id)" }
+    foreach ($variant in $pack.variants) {
+        $variantId = [string]$variant.id
+        $key = "$($pack.id)/$variantId"
+        $source = $languageSources.$variantId
+        if ($null -eq $source) { throw "Missing model source for $key" }
+        $fingerprint = Get-SourceFingerprint -Pack $pack -Variant $variant -ModelSource $source -DictionaryPath $dictionaryPath
+        $fingerprintsByKey[$key] = $fingerprint
+        $previous = $previousByKey[$key]
+        if ($ForceRebuild -or $null -eq $previous) {
+            [void]$buildKeys.Add($key)
+            continue
+        }
+
+        try {
+            $newVersion = [Version]::Parse([string]$pack.version)
+            $oldVersion = [Version]::Parse([string]$previous.version)
+        } catch {
+            throw "$key utilise une version invalide. Format attendu : 1.0.0"
+        }
+        if ($newVersion -lt $oldVersion) {
+            throw "$key ne peut pas revenir de la version $oldVersion à $newVersion."
+        }
+        if ($newVersion -gt $oldVersion) {
+            [void]$buildKeys.Add($key)
+            continue
+        }
+
+        $previousFingerprint = [string](Get-OptionalProperty $previous "source_fingerprint" "")
+        if ([string]::IsNullOrWhiteSpace($previousFingerprint)) {
+            [void]$bootstrapKeys.Add($key)
+        } elseif ($previousFingerprint -ne $fingerprint) {
+            throw "$key a changé sans nouvelle version. Augmente la version du pack dans language.json."
+        }
+    }
+}
+$totalVariants = $buildKeys.Count
 $currentVariant = 0
+$reusedVariants = 0
+
+if ($bootstrapKeys.Count -gt 0) {
+    Write-Host "Empreintes ajoutées aux packs déjà publiés sans les reconstruire : $($bootstrapKeys.Count)" -ForegroundColor DarkGray
+}
+if ($ForceRebuild) {
+    Write-Host "Reconstruction complète demandée explicitement : $totalVariants pack(s)." -ForegroundColor Yellow
+} else {
+    Write-Host "Construction incrémentale : $totalVariants pack(s) nouveau(x) ou modifié(s)." -ForegroundColor Cyan
+}
 
 foreach ($languageDirectory in $languageDirectories) {
     $languageId = $languageDirectory.Name
@@ -237,8 +369,19 @@ foreach ($languageDirectory in $languageDirectories) {
     $manifestVariants = [Collections.Generic.List[object]]::new()
 
     foreach ($variant in $pack.variants) {
-        $currentVariant++
         $variantId = [string]$variant.id
+        $key = "$languageId/$variantId"
+        $sourceFingerprint = [string]$fingerprintsByKey[$key]
+        if (-not $buildKeys.Contains($key)) {
+            $previous = $previousByKey[$key]
+            if ($null -eq $previous) { throw "Entrée publiée introuvable pour $key" }
+            $manifestVariants.Add((New-ReusedManifestVariant -Previous $previous -Fingerprint $sourceFingerprint))
+            $reusedVariants++
+            Write-Host "  Réutilisé : $key $($previous.version) · aucun envoi" -ForegroundColor DarkGray
+            continue
+        }
+
+        $currentVariant++
         $packLabel = "$languageId / $variantId"
         $overallPercent = if ($totalVariants -gt 0) { [int](100 * ($currentVariant - 1) / $totalVariants) } else { 0 }
         Write-Progress -Id 1 -Activity "Construction des packs de langues" -Status "Pack $currentVariant/$totalVariants · $packLabel" -PercentComplete $overallPercent
@@ -317,6 +460,7 @@ The complete license text is included in `VOSK_MODEL_LICENSE.txt`.
             download_url = "$releaseBaseUrl/$outputName"
             archive_size = [long]$outputFile.Length
             sha256 = $outputHash
+            source_fingerprint = $sourceFingerprint
             license = [string]$variant.model.license
             min_mod_version = [string]$pack.min_mod_version
             description = [string]$variant.description
@@ -336,6 +480,7 @@ The complete license text is included in `VOSK_MODEL_LICENSE.txt`.
 }
 
 Write-Progress -Id 1 -Activity "Construction des packs de langues" -Completed
+Write-Host "Résultat : $currentVariant pack(s) construit(s), $reusedVariants pack(s) réutilisé(s)." -ForegroundColor Green
 
 $manifest = [ordered]@{
     '$schema' = "./schemas/manifest.schema.json"
