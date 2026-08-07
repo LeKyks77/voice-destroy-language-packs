@@ -4,6 +4,11 @@ param()
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
+$consoleUtf8 = [Text.UTF8Encoding]::new($false)
+[Console]::InputEncoding = $consoleUtf8
+[Console]::OutputEncoding = $consoleUtf8
+$OutputEncoding = $consoleUtf8
+
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $dropRoot = Join-Path $repoRoot "a_publier"
 $englishDictionaryPath = Join-Path $repoRoot "sources\en_us\dictionary.json"
@@ -18,6 +23,12 @@ function Read-Required([string]$Prompt, [string]$Pattern, [string]$Example) {
 
 function Read-WithDefault([string]$Prompt, [string]$Default) {
     $value = (Read-Host "$Prompt [$Default]").Trim()
+    if ([string]::IsNullOrWhiteSpace($value)) { return $Default }
+    return $value
+}
+
+function Read-WithDescribedDefault([string]$Prompt, [string]$Default, [string]$Description) {
+    $value = (Read-Host "$Prompt (Entrée = $Description)").Trim()
     if ([string]::IsNullOrWhiteSpace($value)) { return $Default }
     return $value
 }
@@ -127,8 +138,20 @@ if (Test-Path -LiteralPath $definitionPath -PathType Leaf) {
     Write-Host "La langue $languageId existe déjà : les valeurs actuelles seront proposées par défaut." -ForegroundColor Yellow
 }
 
-$language = Read-Name "Nom international en anglais" ([string](Get-PropertyValue $existing "language" "")) "German, Spanish ou Italian"
-$nativeName = Read-Name "Nom natif affiché dans le jeu" ([string](Get-PropertyValue $existing "native_name" "")) "Deutsch, Español ou Italiano"
+$existingLanguage = [string](Get-PropertyValue $existing "language" "")
+$existingNativeName = [string](Get-PropertyValue $existing "native_name" "")
+if ($languageId -eq "zh_cn") {
+    $language = Read-WithDefault "Nom international en anglais" $(if ($existingLanguage) { $existingLanguage } else { "Chinese (Simplified)" })
+    $nativeDefault = if ($existingNativeName -and $existingNativeName -notmatch '^[?\s]+$') { $existingNativeName } else { "简体中文" }
+    $nativeName = Read-WithDescribedDefault "Nom natif affiché dans le jeu" $nativeDefault "chinois simplifié"
+    if ($nativeName -match '^[?\s]+$') {
+        $nativeName = "简体中文"
+        Write-Host "La saisie illisible de la console a été remplacée automatiquement par le nom chinois correct." -ForegroundColor Yellow
+    }
+} else {
+    $language = Read-Name "Nom international en anglais" $existingLanguage "German, Spanish ou Italian"
+    $nativeName = Read-Name "Nom natif affiché dans le jeu" $existingNativeName "Deutsch, Español ou Italiano"
+}
 $version = Read-WithDefault "Version de ce pack de langue (pas celle du mod)" ([string](Get-PropertyValue $existing "version" "1.0.0"))
 if ($version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') { throw "Version invalide. Exemple : 1.0.0" }
 
@@ -159,8 +182,14 @@ $definitionJson = $definition | ConvertTo-Json -Depth 10
 
 $wordsPath = Join-Path $languageFolder "mots.csv"
 if (-not (Test-Path -LiteralPath $wordsPath -PathType Leaf)) {
-    New-WordsCsv $wordsPath
-    Write-Host "Un tableau de mots a été créé à partir du dictionnaire anglais." -ForegroundColor Green
+    $preparedWordsPath = Join-Path $repoRoot "work\prepared\$languageId\mots.csv"
+    if (Test-Path -LiteralPath $preparedWordsPath -PathType Leaf) {
+        Copy-Item -LiteralPath $preparedWordsPath -Destination $wordsPath
+        Write-Host "Le dictionnaire préparé pour $languageId a été ajouté automatiquement." -ForegroundColor Green
+    } else {
+        New-WordsCsv $wordsPath
+        Write-Host "Un tableau de mots a été créé à partir du dictionnaire anglais." -ForegroundColor Green
+    }
 }
 
 Write-Host ""
