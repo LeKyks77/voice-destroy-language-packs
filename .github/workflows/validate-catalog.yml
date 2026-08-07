@@ -1,0 +1,18 @@
+name: Validate language catalog
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Validate catalog and source descriptors
+        run: python tools/validate_catalog.py
