@@ -4,6 +4,29 @@
     "catalog_version":  2,
     "languages":  [
                       {
+                          "id":  "de_de",
+                          "language":  "German",
+                          "native_name":  "Deutsch",
+                          "variants":  [
+                                           {
+                                               "id":  "small",
+                                               "name":  "Small",
+                                               "version":  "1.0.0",
+                                               "engine":  "vosk",
+                                               "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.2.0/voice-destroy-language-de_de-small-1.0.0.zip",
+                                               "archive_size":  46482401,
+                                               "sha256":  "D9B8C6C9A3BF564BF8AD585507170AD6C4461F04CA23EE5F01FF3877A2D8BF7C",
+                                               "source_fingerprint":  "E037764EC08B334D68610EC779E250756EBC2B965A4B5EE5B1E94899439453AA",
+                                               "license":  "Apache-2.0",
+                                               "min_mod_version":  "1.5.0",
+                                               "description":  "Leichte, weniger genaue Spracherkennung für schwächere Computer.",
+                                               "hardware":  "Etwa 300 MB RAM · schwächere PCs und Raspberry Pi",
+                                               "runtime_memory_mb":  300,
+                                               "recommended":  true
+                                           }
+                                       ]
+                      },
+                      {
                           "id":  "en_us",
                           "language":  "English (United States)",
                           "native_name":  "English (US)",
