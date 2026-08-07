@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/dictionary.schema.json",
+  "schema_version": 1,
+  "language": "es_es",
+  "aliases": [
+    { "words": ["arena"], "type": "block", "target": "minecraft:sand" },
+    { "words": ["cofre"], "type": "block", "target": "minecraft:chest" },
+    { "words": ["espada"], "type": "item", "target": "minecraft:iron_sword" },
+    { "words": ["zombi"], "type": "entity", "target": "minecraft:zombie" }
+  ]
+}
