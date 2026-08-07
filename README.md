@@ -51,16 +51,21 @@ codée en dur.
 
 ## Publication automatique sous Windows
 
-Le fichier `PUBLIER_LANGUES.bat` automatise toute la livraison :
+Deux assistants Windows évitent désormais d'écrire les fichiers JSON à la main :
 
-1. copier `templates/nouvelle-langue/` vers `a_publier/<code_langue>/` ;
-2. remplir `language.json` et `dictionary.json` ;
-3. déposer les ZIP Vosk indiqués dans `language.json` dans ce même dossier ;
+1. double-cliquer sur `AJOUTER_UNE_LANGUE.bat` ;
+2. répondre aux questions : code, noms, version et chemin du ZIP Small ou Normal ;
+3. traduire uniquement la colonne `words` du fichier `mots.csv` ouvert par l'assistant ;
 4. double-cliquer sur `PUBLIER_LANGUES.bat` et choisir le nouveau tag demandé.
+
+Les fichiers `language.json` et `dictionary.json` sont produits automatiquement. Le caractère `|`
+sépare plusieurs synonymes dans `mots.csv`, par exemple `arena|arenilla`.
 
 Le programme vérifie la structure des modèles Vosk, calcule les tailles et SHA-256, construit les
 packs, crée une branche de publication et une pull request, attend la validation GitHub, fusionne
 la branche, téléverse les ZIP dans une release et publie le nouveau catalogue consommé par le jeu.
+Chaque extraction, compression, vérification et empreinte affiche une barre en pourcentage. Les
+téléversements affichent le fichier courant, un compteur et le temps écoulé.
 
 GitHub CLI est installé automatiquement avec `winget` s'il manque. La première utilisation ouvre
 la connexion GitHub officielle dans le navigateur. Aucun mot de passe ni jeton n'est enregistré
