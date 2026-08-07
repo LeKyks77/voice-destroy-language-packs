@@ -19,7 +19,7 @@ $importerPath = Join-Path $PSScriptRoot "import-language-drop.ps1"
 $validatorPath = Join-Path $PSScriptRoot "validate_catalog.py"
 
 function Invoke-Checked([string]$Program, [string[]]$Arguments) {
-    & $Program @Arguments
+    & $Program @Arguments | Out-Host
     if ($LASTEXITCODE -ne 0) {
         throw "Commande échouée ($LASTEXITCODE) : $Program $($Arguments -join ' ')"
     }
@@ -28,6 +28,13 @@ function Invoke-Checked([string]$Program, [string[]]$Arguments) {
 function Get-GitHubCli {
     $command = Get-Command gh -ErrorAction SilentlyContinue
     if ($null -ne $command) { return $command.Source }
+
+    foreach ($candidate in @(
+        "$env:ProgramFiles\GitHub CLI\gh.exe",
+        "$env:LOCALAPPDATA\Programs\GitHub CLI\gh.exe"
+    )) {
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) { return $candidate }
+    }
 
     $winget = Get-Command winget -ErrorAction SilentlyContinue
     if ($null -eq $winget) {
@@ -123,6 +130,11 @@ try {
         }
         Invoke-Checked $gh @("auth", "setup-git")
         Invoke-Checked $gh @("repo", "view", $Repository, "--json", "nameWithOwner")
+        Invoke-Checked "git" @("fetch", "origin", "main")
+        & git cat-file -e "origin/main:tools/publish-language-packs.ps1" 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            throw "Fusionne d'abord la pull request des packs Small/Normal dans main : https://github.com/$Repository/pull/new/codex/language-model-variants"
+        }
         Invoke-Checked "git" @("switch", "main")
         Invoke-Checked "git" @("pull", "--ff-only", "origin", "main")
         Assert-CleanRepository
