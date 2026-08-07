@@ -71,26 +71,80 @@ function Assert-CleanRepository([switch]$AllowPreparedLanguageChanges) {
     $changes = & git status --porcelain
     if ($LASTEXITCODE -ne 0) { throw "Impossible de lire l'état Git du dépôt." }
     if ($changes) {
-        if ($AllowPreparedLanguageChanges) {
-            $unexpected = @(
-                foreach ($change in $changes) {
-                    if ($change.Length -lt 4) { $change; continue }
-                    $status = $change.Substring(0, 2)
-                    $path = $change.Substring(3).Trim('"').Replace('\', '/')
-                    $isGeneratedPath =
-                        $path -eq "manifest.json" -or
-                        $path -eq "tools/model-sources.json" -or
-                        $path.StartsWith("sources/", [StringComparison]::OrdinalIgnoreCase)
-                    if (-not $isGeneratedPath -or $status.Contains('D')) { $change }
-                }
-            )
-            if ($unexpected.Count -eq 0) {
-                Write-Host "Reprise d'une publication interrompue : fichiers de langue déjà préparés." -ForegroundColor Yellow
-                return
-            }
+        if ($AllowPreparedLanguageChanges -and (Test-OnlyPreparedLanguageChanges @($changes))) {
+            Write-Host "Reprise d'une publication interrompue : fichiers de langue déjà préparés." -ForegroundColor Yellow
+            return
         }
         throw "Le dépôt contient déjà des changements. Committe-les ou range-les avant de publier.`n$($changes -join "`n")"
     }
+}
+
+function Test-OnlyPreparedLanguageChanges([string[]]$Changes) {
+    if ($null -eq $Changes -or $Changes.Count -eq 0) { return $false }
+    foreach ($change in $Changes) {
+        if ($change.Length -lt 4) { return $false }
+        $status = $change.Substring(0, 2)
+        $path = $change.Substring(3).Trim('"').Replace('\', '/')
+        $isGeneratedPath =
+            $path -eq "manifest.json" -or
+            $path -eq "tools/model-sources.json" -or
+            $path.StartsWith("sources/", [StringComparison]::OrdinalIgnoreCase)
+        if (-not $isGeneratedPath -or $status.Contains('D')) { return $false }
+    }
+    return $true
+}
+
+function Stop-PreparedPublication([string[]]$Changes) {
+    if (-not (Test-OnlyPreparedLanguageChanges $Changes)) {
+        throw "Annulation refusée : le dépôt contient des modifications qui ne proviennent pas du publieur."
+    }
+
+    $timestamp = [DateTime]::Now.ToString("yyyyMMdd-HHmmss")
+    $backupRoot = [IO.Path]::GetFullPath((Join-Path $workRoot "cancelled\$timestamp"))
+    $repoFull = [IO.Path]::GetFullPath($repoRoot).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    $sourcesFull = [IO.Path]::GetFullPath((Join-Path $repoRoot "sources")).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    [IO.Directory]::CreateDirectory($backupRoot) | Out-Null
+
+    $untrackedSourceTargets = [Collections.Generic.List[string]]::new()
+    foreach ($change in $Changes) {
+        $status = $change.Substring(0, 2)
+        $relative = $change.Substring(3).Trim('"').Replace('/', [IO.Path]::DirectorySeparatorChar)
+        $sourcePath = [IO.Path]::GetFullPath((Join-Path $repoRoot $relative))
+        if (-not $sourcePath.StartsWith($repoFull, [StringComparison]::OrdinalIgnoreCase)) {
+            throw "Chemin hors dépôt pendant l'annulation : $relative"
+        }
+        if (Test-Path -LiteralPath $sourcePath) {
+            $backupPath = Join-Path $backupRoot $relative
+            [IO.Directory]::CreateDirectory((Split-Path -Parent $backupPath)) | Out-Null
+            if (Test-Path -LiteralPath $sourcePath -PathType Container) {
+                Copy-Item -LiteralPath $sourcePath -Destination $backupPath -Recurse
+            } else {
+                Copy-Item -LiteralPath $sourcePath -Destination $backupPath
+            }
+        }
+        if ($status -eq "??" -and $sourcePath.StartsWith($sourcesFull, [StringComparison]::OrdinalIgnoreCase)) {
+            $untrackedSourceTargets.Add($sourcePath)
+        }
+    }
+
+    & git restore --staged --worktree -- manifest.json tools/model-sources.json sources 2>$null | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "Impossible de restaurer les fichiers suivis par Git." }
+
+    foreach ($target in $untrackedSourceTargets) {
+        $targetFull = [IO.Path]::GetFullPath($target)
+        if (-not $targetFull.StartsWith($sourcesFull, [StringComparison]::OrdinalIgnoreCase) -or
+            $targetFull.TrimEnd([IO.Path]::DirectorySeparatorChar) -eq $sourcesFull.TrimEnd([IO.Path]::DirectorySeparatorChar)) {
+            throw "Cible d'annulation invalide : $targetFull"
+        }
+        if (Test-Path -LiteralPath $targetFull -PathType Container) {
+            Remove-Item -LiteralPath $targetFull -Recurse -Force
+        } elseif (Test-Path -LiteralPath $targetFull -PathType Leaf) {
+            Remove-Item -LiteralPath $targetFull -Force
+        }
+    }
+
+    Write-Host "Préparation annulée. Sauvegarde récupérable : $backupRoot" -ForegroundColor Green
+    Write-Host "Le contenu de a_publier/ est conservé : corrige-le puis relance le programme."
 }
 
 function Get-ReleaseNotes([string]$Tag) {
@@ -146,6 +200,22 @@ Push-Location $repoRoot
 try {
     if (-not (Test-Path -LiteralPath ".git" -PathType Container)) {
         throw "Ce script doit être lancé depuis le dépôt Git des packs de langues."
+    }
+    $initialChanges = @(& git status --porcelain)
+    if (-not $DryRun -and (Test-OnlyPreparedLanguageChanges $initialChanges)) {
+        Write-Host "Une préparation de publication existe déjà." -ForegroundColor Yellow
+        $resumeChoice = Read-Host "[R] Reprendre  [A] Annuler la préparation  [Q] Quitter"
+        if ($resumeChoice -match '^(a|annuler)$') {
+            Stop-PreparedPublication $initialChanges
+            return
+        }
+        if ($resumeChoice -match '^(q|quitter)$') {
+            Write-Host "Aucun fichier n'a été modifié."
+            return
+        }
+        if ($resumeChoice -notmatch '^(r|reprendre)$') {
+            throw "Choix invalide. Relance le programme et utilise R, A ou Q."
+        }
     }
     Assert-CleanRepository -AllowPreparedLanguageChanges
 
@@ -224,7 +294,15 @@ try {
     }
 
     $confirmation = Read-Host "Tape PUBLIER pour envoyer la branche, fusionner la PR et publier les ZIP"
-    if ($confirmation -cne "PUBLIER") { throw "Publication annulée." }
+    if ($confirmation -cne "PUBLIER") {
+        $cancelPreparation = Read-Host "Envoi annulé. Restaurer aussi les fichiers préparés ? (O/N)"
+        if ($cancelPreparation -match '^(o|oui|y|yes)$') {
+            Stop-PreparedPublication @(& git status --porcelain)
+        } else {
+            Write-Host "Envoi annulé, préparation conservée pour une reprise ultérieure."
+        }
+        return
+    }
 
     $safeTag = $ReleaseTag -replace '[^a-zA-Z0-9._-]', '-'
     Invoke-Checked "git" @("add", "--", "manifest.json", "sources", "tools/model-sources.json")
