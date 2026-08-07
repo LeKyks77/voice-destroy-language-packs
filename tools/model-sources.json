@@ -1,30 +1,38 @@
 {
-  "fr_fr": {
-    "small": {
-      "archive": "vosk-model-small-fr-0.22.zip",
-      "archive_size": 42233323,
-      "sha256": "CABF6180E177EB9B3A9A9D43A437BD5E549F3A7D09525E5D69A3FED787BE12AD",
-      "root": "vosk-model-small-fr-0.22"
-    },
-    "normal": {
-      "archive": "vosk-model-fr-0.22.zip",
-      "archive_size": 1523026348,
-      "sha256": "B26C34E5EA1B9F9DEE6CEF5E910A1D93E9ADB60F1A0A3F85C069976AEC481E46",
-      "root": "vosk-model-fr-0.22"
-    }
-  },
-  "en_us": {
-    "small": {
-      "archive": "vosk-model-small-en-us-0.15.zip",
-      "archive_size": 41205931,
-      "sha256": "30F26242C4EB449F948E42CB302DD7A686CB29A3423A8367F99FF41780942498",
-      "root": "vosk-model-small-en-us-0.15"
-    },
-    "normal": {
-      "archive": "vosk-model-en-us-0.22.zip",
-      "archive_size": 1913365522,
-      "sha256": "47F9A81EBB039DBB0BD319175C36AC393C0893B796C2B6303E64CF58C27B69F6",
-      "root": "vosk-model-en-us-0.22"
-    }
-  }
+    "fr_fr":  {
+                  "small":  {
+                                "archive":  "vosk-model-small-fr-0.22.zip",
+                                "archive_size":  42233323,
+                                "sha256":  "CABF6180E177EB9B3A9A9D43A437BD5E549F3A7D09525E5D69A3FED787BE12AD",
+                                "root":  "vosk-model-small-fr-0.22"
+                            },
+                  "normal":  {
+                                 "archive":  "vosk-model-fr-0.22.zip",
+                                 "archive_size":  1523026348,
+                                 "sha256":  "B26C34E5EA1B9F9DEE6CEF5E910A1D93E9ADB60F1A0A3F85C069976AEC481E46",
+                                 "root":  "vosk-model-fr-0.22"
+                             }
+              },
+    "en_us":  {
+                  "small":  {
+                                "archive":  "vosk-model-small-en-us-0.15.zip",
+                                "archive_size":  41205931,
+                                "sha256":  "30F26242C4EB449F948E42CB302DD7A686CB29A3423A8367F99FF41780942498",
+                                "root":  "vosk-model-small-en-us-0.15"
+                            },
+                  "normal":  {
+                                 "archive":  "vosk-model-en-us-0.22.zip",
+                                 "archive_size":  1913365522,
+                                 "sha256":  "47F9A81EBB039DBB0BD319175C36AC393C0893B796C2B6303E64CF58C27B69F6",
+                                 "root":  "vosk-model-en-us-0.22"
+                             }
+              },
+    "es_es":  {
+                  "small":  {
+                                "archive":  "vosk-model-small-es-0.42.zip",
+                                "archive_size":  39817833,
+                                "sha256":  "09B239888F633EF2F0B4E09736E3D9936ACFD810BC65D53FAD45261762C6511F",
+                                "root":  "vosk-model-small-es-0.42"
+                            }
+              }
 }
