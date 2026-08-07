@@ -1,17 +1,41 @@
 {
   "$schema": "../../schemas/pack.schema.json",
-  "schema_version": 1,
+  "schema_version": 2,
   "id": "fr_fr",
   "language": "French",
   "native_name": "Français",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engine": "vosk",
-  "model": {
-    "name": "vosk-model-small-fr-0.22",
-    "upstream_url": "https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.zip",
-    "license": "Apache-2.0",
-    "source_page": "https://alphacephei.com/vosk/models"
-  },
   "dictionary": "dictionary.json",
-  "min_mod_version": "1.4.0"
+  "min_mod_version": "1.5.0",
+  "variants": [
+    {
+      "id": "small",
+      "name": "Small",
+      "description": "Reconnaissance légère et plus approximative, idéale pour les petits PC.",
+      "hardware": "Environ 300 Mo de RAM · petits PC et Raspberry Pi",
+      "runtime_memory_mb": 300,
+      "recommended": true,
+      "model": {
+        "name": "vosk-model-small-fr-0.22",
+        "upstream_url": "https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.zip",
+        "license": "Apache-2.0",
+        "source_page": "https://alphacephei.com/vosk/models"
+      }
+    },
+    {
+      "id": "normal",
+      "name": "Normal",
+      "description": "Reconnaissance plus précise, mais modèle très lourd réservé aux PC puissants.",
+      "hardware": "Jusqu’à 16 Go de RAM · Intel i7 ou AMD Ryzen récent recommandé",
+      "runtime_memory_mb": 16384,
+      "recommended": false,
+      "model": {
+        "name": "vosk-model-fr-0.22",
+        "upstream_url": "https://alphacephei.com/vosk/models/vosk-model-fr-0.22.zip",
+        "license": "Apache-2.0",
+        "source_page": "https://alphacephei.com/vosk/models"
+      }
+    }
+  ]
 }

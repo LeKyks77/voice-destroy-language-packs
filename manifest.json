@@ -1,31 +1,81 @@
 {
     "$schema":  "./schemas/manifest.schema.json",
-    "schema_version":  1,
-    "catalog_version":  1,
-    "packs":  [
-                  {
-                      "id":  "fr_fr",
-                      "language":  "French",
-                      "native_name":  "Français",
-                      "version":  "1.0.0",
-                      "engine":  "vosk",
-                      "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.0.0/voice-destroy-language-fr_fr-1.0.0.zip",
-                      "archive_size":  42211434,
-                      "sha256":  "6C5BBA87D73F08782CAAB52AB39F38863CD723F09EC348085015A5133CAC3A24",
-                      "license":  "Apache-2.0",
-                      "min_mod_version":  "1.4.0"
-                  },
-                  {
-                      "id":  "en_us",
-                      "language":  "English (United States)",
-                      "native_name":  "English (US)",
-                      "version":  "1.0.0",
-                      "engine":  "vosk",
-                      "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.0.0/voice-destroy-language-en_us-1.0.0.zip",
-                      "archive_size":  41189875,
-                      "sha256":  "58C7AA9FDCF80336335EE787DF878C333155ACF7C1824BD03D108CB9C82B2531",
-                      "license":  "Apache-2.0",
-                      "min_mod_version":  "1.4.0"
-                  }
-              ]
+    "schema_version":  2,
+    "catalog_version":  2,
+    "languages":  [
+                      {
+                          "id":  "en_us",
+                          "language":  "English (United States)",
+                          "native_name":  "English (US)",
+                          "variants":  [
+                                           {
+                                               "id":  "small",
+                                               "name":  "Small",
+                                               "version":  "1.1.0",
+                                               "engine":  "vosk",
+                                               "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.1.0/voice-destroy-language-en_us-small-1.1.0.zip",
+                                               "archive_size":  41189848,
+                                               "sha256":  "DD5B8A89B21EC0674139B738ADE34BFB91CDF6D4BAFF9A6C476BBA11D67A64A0",
+                                               "license":  "Apache-2.0",
+                                               "min_mod_version":  "1.5.0",
+                                               "description":  "Lightweight, approximate recognition designed for low-end computers.",
+                                               "hardware":  "Around 300 MB RAM · low-end PCs and Raspberry Pi",
+                                               "runtime_memory_mb":  300,
+                                               "recommended":  true
+                                           },
+                                           {
+                                               "id":  "normal",
+                                               "name":  "Normal",
+                                               "version":  "1.1.0",
+                                               "engine":  "vosk",
+                                               "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.1.0/voice-destroy-language-en_us-normal-1.1.0.zip",
+                                               "archive_size":  1911397674,
+                                               "sha256":  "4927489029760B7ECA2ECB566FB2D6BD027F1E08D93B2F5401BEDEDC52E01AFB",
+                                               "license":  "Apache-2.0",
+                                               "min_mod_version":  "1.5.0",
+                                               "description":  "More accurate recognition with a very large model intended for powerful PCs.",
+                                               "hardware":  "Up to 16 GB RAM · recent Intel i7 or AMD Ryzen recommended",
+                                               "runtime_memory_mb":  16384,
+                                               "recommended":  false
+                                           }
+                                       ]
+                      },
+                      {
+                          "id":  "fr_fr",
+                          "language":  "French",
+                          "native_name":  "Français",
+                          "variants":  [
+                                           {
+                                               "id":  "small",
+                                               "name":  "Small",
+                                               "version":  "1.1.0",
+                                               "engine":  "vosk",
+                                               "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.1.0/voice-destroy-language-fr_fr-small-1.1.0.zip",
+                                               "archive_size":  42211406,
+                                               "sha256":  "8C10CF725A5B6DA4E2F32C0C5A62BF3AB56BB002AD157F69D29C5FEC2D1F5203",
+                                               "license":  "Apache-2.0",
+                                               "min_mod_version":  "1.5.0",
+                                               "description":  "Reconnaissance légère et plus approximative, idéale pour les petits PC.",
+                                               "hardware":  "Environ 300 Mo de RAM · petits PC et Raspberry Pi",
+                                               "runtime_memory_mb":  300,
+                                               "recommended":  true
+                                           },
+                                           {
+                                               "id":  "normal",
+                                               "name":  "Normal",
+                                               "version":  "1.1.0",
+                                               "engine":  "vosk",
+                                               "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.1.0/voice-destroy-language-fr_fr-normal-1.1.0.zip",
+                                               "archive_size":  1521755814,
+                                               "sha256":  "C4756B00E3B71728D4F54E86C9528CD45546E4BA18CBF2E458CDF9CADBC56309",
+                                               "license":  "Apache-2.0",
+                                               "min_mod_version":  "1.5.0",
+                                               "description":  "Reconnaissance plus précise, mais modèle très lourd réservé aux PC puissants.",
+                                               "hardware":  "Jusqu’à 16 Go de RAM · Intel i7 ou AMD Ryzen récent recommandé",
+                                               "runtime_memory_mb":  16384,
+                                               "recommended":  false
+                                           }
+                                       ]
+                      }
+                  ]
 }

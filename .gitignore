@@ -2,6 +2,7 @@
 downloads/
 work/
 dist/
+a_publier/
 *.zip
 *.part
 sources/*/model/

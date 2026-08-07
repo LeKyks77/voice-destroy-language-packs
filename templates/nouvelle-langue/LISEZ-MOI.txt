@@ -1,0 +1,15 @@
+AJOUTER UNE LANGUE
+==================
+
+1. Copie ce dossier dans "a_publier".
+2. Renomme le dossier avec le code de langue, par exemple es_es, de_de ou it_it.
+3. Modifie language.json : identifiant, noms, version et noms des ZIP Vosk.
+4. Modifie dictionary.json avec les mots réellement employés par les joueurs.
+5. Place les ZIP Vosk Small et Normal dans le même dossier.
+6. Double-clique sur PUBLIER_LANGUES.bat à la racine du dépôt.
+
+Le champ "upstream_url" doit être l'adresse HTTPS officielle du modèle.
+Tu peux ne déclarer qu'une seule variante si aucun modèle Small ou Normal n'existe.
+Tous les variants d'une langue doivent être présents lors d'une mise à jour.
+
+Ne place jamais de mot de passe ou de jeton GitHub dans ces fichiers.
