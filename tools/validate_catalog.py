@@ -67,6 +67,9 @@ def validate_manifest() -> None:
                     f"{language_id}/{variant_id}: invalid archive size")
             require(bool(SHA256.fullmatch(variant.get("sha256", ""))),
                     f"{language_id}/{variant_id}: invalid SHA-256")
+            fingerprint = variant.get("source_fingerprint")
+            require(fingerprint is None or bool(SHA256.fullmatch(fingerprint)),
+                    f"{language_id}/{variant_id}: invalid source fingerprint")
             require(str(variant.get("download_url", "")).startswith("https://"),
                     f"{language_id}/{variant_id}: download URL must use HTTPS")
             require(int(variant.get("runtime_memory_mb", 0)) > 0,

@@ -38,6 +38,7 @@
                 "download_url": { "type": "string", "format": "uri", "pattern": "^https://" },
                 "archive_size": { "type": "integer", "minimum": 1 },
                 "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+                "source_fingerprint": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
                 "license": { "type": "string", "minLength": 1 },
                 "min_mod_version": { "type": "string", "minLength": 1 },
                 "description": { "type": "string", "minLength": 8 },
