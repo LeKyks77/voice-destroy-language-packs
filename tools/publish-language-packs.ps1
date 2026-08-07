@@ -25,6 +25,17 @@ function Invoke-Checked([string]$Program, [string[]]$Arguments) {
     }
 }
 
+function Test-NativeCommand([string]$Program, [string[]]$Arguments) {
+    $previousPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "Continue"
+        & $Program @Arguments 2>$null | Out-Null
+        return $LASTEXITCODE -eq 0
+    } finally {
+        $ErrorActionPreference = $previousPreference
+    }
+}
+
 function Get-GitHubCli {
     $command = Get-Command gh -ErrorAction SilentlyContinue
     if ($null -ne $command) { return $command.Source }
@@ -123,16 +134,16 @@ try {
     $gh = $null
     if (-not $DryRun) {
         $gh = Get-GitHubCli
-        & $gh auth status --hostname github.com *> $null
-        if ($LASTEXITCODE -ne 0) {
+        $isAuthenticated = Test-NativeCommand $gh @("auth", "status", "--hostname", "github.com")
+        if (-not $isAuthenticated) {
             Write-Host "Une page GitHub va s'ouvrir pour la connexion unique." -ForegroundColor Yellow
             Invoke-Checked $gh @("auth", "login", "--hostname", "github.com", "--git-protocol", "https", "--web")
         }
         Invoke-Checked $gh @("auth", "setup-git")
         Invoke-Checked $gh @("repo", "view", $Repository, "--json", "nameWithOwner")
         Invoke-Checked "git" @("fetch", "origin", "main")
-        & git cat-file -e "origin/main:tools/publish-language-packs.ps1" 2>$null
-        if ($LASTEXITCODE -ne 0) {
+        $publisherIsMerged = Test-NativeCommand "git" @("cat-file", "-e", "origin/main:tools/publish-language-packs.ps1")
+        if (-not $publisherIsMerged) {
             throw "Fusionne d'abord la pull request des packs Small/Normal dans main : https://github.com/$Repository/pull/new/codex/language-model-variants"
         }
         Invoke-Checked "git" @("switch", "main")
@@ -183,7 +194,9 @@ try {
         return
     }
 
-    if ((& git tag --list $ReleaseTag) -or (& $gh release view $ReleaseTag --repo $Repository 2>$null)) {
+    $localTagExists = [bool](& git tag --list $ReleaseTag)
+    $remoteReleaseExists = Test-NativeCommand $gh @("release", "view", $ReleaseTag, "--repo", $Repository)
+    if ($localTagExists -or $remoteReleaseExists) {
         throw "Le tag ou la release $ReleaseTag existe déjà. Choisis une nouvelle version."
     }
 
