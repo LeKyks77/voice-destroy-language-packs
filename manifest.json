@@ -126,6 +126,29 @@
                                                "recommended":  false
                                            }
                                        ]
+                      },
+                      {
+                          "id":  "zh_cn",
+                          "language":  "Chinese (Simplified)",
+                          "native_name":  "简体中文",
+                          "variants":  [
+                                           {
+                                               "id":  "small",
+                                               "name":  "Small",
+                                               "version":  "1.0.0",
+                                               "engine":  "vosk",
+                                               "download_url":  "https://github.com/LeKyks77/voice-destroy-language-packs/releases/download/packs-v1.3.0/voice-destroy-language-zh_cn-small-1.0.0.zip",
+                                               "archive_size":  43896154,
+                                               "sha256":  "BBAE2F1434FD2CA0853C73671A5AF6D84CF4F19FF73BFD85FAA385D91BD66B73",
+                                               "source_fingerprint":  "366F236F92CDA5AC510561B9320BC2E4CCA5CCB918B57205AC795B8A5F68C136",
+                                               "license":  "Apache-2.0",
+                                               "min_mod_version":  "1.5.0",
+                                               "description":  "Reconnaissance légère et plus approximative, idéale pour les petits PC.",
+                                               "hardware":  "Environ 300 Mo de RAM · petits PC et Raspberry Pi",
+                                               "runtime_memory_mb":  300,
+                                               "recommended":  true
+                                           }
+                                       ]
                       }
                   ]
 }
