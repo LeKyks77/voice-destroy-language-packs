@@ -113,6 +113,7 @@ function New-WordsCsv([string]$Destination) {
 Write-Host ""
 Write-Host "VOICE DESTROY - AJOUTER OU COMPLÉTER UNE LANGUE" -ForegroundColor Cyan
 Write-Host "Aucun fichier JSON n'est à écrire manuellement." -ForegroundColor Green
+Write-Host "Les noms seront demandés en anglais, puis dans la langue elle-même."
 Write-Host ""
 
 [IO.Directory]::CreateDirectory($dropRoot) | Out-Null
@@ -126,9 +127,9 @@ if (Test-Path -LiteralPath $definitionPath -PathType Leaf) {
     Write-Host "La langue $languageId existe déjà : les valeurs actuelles seront proposées par défaut." -ForegroundColor Yellow
 }
 
-$language = Read-Name "Nom international de la langue" ([string](Get-PropertyValue $existing "language" "")) "Spanish"
-$nativeName = Read-Name "Nom affiché dans le jeu" ([string](Get-PropertyValue $existing "native_name" "")) "Español"
-$version = Read-WithDefault "Version de ce pack" ([string](Get-PropertyValue $existing "version" "1.0.0"))
+$language = Read-Name "Nom international en anglais" ([string](Get-PropertyValue $existing "language" "")) "German, Spanish ou Italian"
+$nativeName = Read-Name "Nom natif affiché dans le jeu" ([string](Get-PropertyValue $existing "native_name" "")) "Deutsch, Español ou Italiano"
+$version = Read-WithDefault "Version de ce pack de langue (pas celle du mod)" ([string](Get-PropertyValue $existing "version" "1.0.0"))
 if ($version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') { throw "Version invalide. Exemple : 1.0.0" }
 
 $variantsById = @{}
