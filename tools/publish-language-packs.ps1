@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ReleaseTag,
     [string]$Repository = "LeKyks77/voice-destroy-language-packs",
