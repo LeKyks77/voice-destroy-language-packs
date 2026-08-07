@@ -10,6 +10,23 @@ LANGUAGE_ID = re.compile(r"^[a-z]{2,3}_[a-z0-9]{2,8}$")
 VARIANT_ID = re.compile(r"^[a-z0-9_-]{2,16}$")
 SHA256 = re.compile(r"^[A-Fa-f0-9]{64}$")
 MAX_ARCHIVE = 2 * 1024 * 1024 * 1024
+MOJIBAKE_MARKERS = (
+    "\u00c3\u00a9", "\u00c3\u00a8", "\u00c3\u00aa", "\u00c3\u00a0", "\u00c3\u00a2",
+    "\u00c3\u00b4", "\u00c3\u00b9", "\u00c3\u00bb", "\u00c3\u00a7", "\u00c3\u00b1",
+    "\u00c2\u00b7", "\u00e2\u20ac\u2122", "\u00e2\u20ac\u0153", "\u00e2\u20ac", "\ufffd",
+)
+
+
+def validate_text_encoding(value: object, context: str) -> None:
+    if isinstance(value, str):
+        marker = next((candidate for candidate in MOJIBAKE_MARKERS if candidate in value), None)
+        require(marker is None, f"{context}: probable broken UTF-8 text")
+    elif isinstance(value, dict):
+        for key, child in value.items():
+            validate_text_encoding(child, f"{context}.{key}")
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            validate_text_encoding(child, f"{context}[{index}]")
 
 
 def read_json(path: Path) -> dict:
@@ -17,6 +34,7 @@ def read_json(path: Path) -> dict:
         value = json.load(stream)
     if not isinstance(value, dict):
         raise ValueError(f"{path}: expected a JSON object")
+    validate_text_encoding(value, str(path.relative_to(ROOT)))
     return value
 
 

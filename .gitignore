@@ -5,4 +5,6 @@ dist/
 a_publier/
 *.zip
 *.part
+__pycache__/
+*.pyc
 sources/*/model/

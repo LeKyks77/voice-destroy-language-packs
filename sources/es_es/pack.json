@@ -12,8 +12,8 @@
                      {
                          "id":  "small",
                          "name":  "Small",
-                         "description":  "Reconnaissance lÃ©gÃ¨re et plus approximative, idÃ©ale pour les petits PC.",
-                         "hardware":  "Environ 300 Mo de RAM Â· petits PC et Raspberry Pi",
+                         "description":  "Reconnaissance légère et plus approximative, idéale pour les petits PC.",
+                         "hardware":  "Environ 300 Mo de RAM · petits PC et Raspberry Pi",
                          "runtime_memory_mb":  300,
                          "recommended":  true,
                          "model":  {
