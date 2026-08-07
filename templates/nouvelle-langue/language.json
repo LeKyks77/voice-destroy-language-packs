@@ -1,0 +1,19 @@
+{
+  "id": "es_es",
+  "language": "Spanish",
+  "native_name": "Español",
+  "version": "1.0.0",
+  "min_mod_version": "1.5.0",
+  "variants": [
+    {
+      "id": "small",
+      "zip": "vosk-model-small-es-0.42.zip",
+      "upstream_url": "https://alphacephei.com/vosk/models/vosk-model-small-es-0.42.zip"
+    },
+    {
+      "id": "normal",
+      "zip": "vosk-model-es-0.42.zip",
+      "upstream_url": "https://alphacephei.com/vosk/models/vosk-model-es-0.42.zip"
+    }
+  ]
+}

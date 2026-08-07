@@ -49,6 +49,29 @@ de mémoire.
 Le script parcourt automatiquement tous les dossiers `sources/`; aucune liste de langues n'est
 codée en dur.
 
+## Publication automatique sous Windows
+
+Le fichier `PUBLIER_LANGUES.bat` automatise toute la livraison :
+
+1. copier `templates/nouvelle-langue/` vers `a_publier/<code_langue>/` ;
+2. remplir `language.json` et `dictionary.json` ;
+3. déposer les ZIP Vosk indiqués dans `language.json` dans ce même dossier ;
+4. double-cliquer sur `PUBLIER_LANGUES.bat` et choisir le nouveau tag demandé.
+
+Le programme vérifie la structure des modèles Vosk, calcule les tailles et SHA-256, construit les
+packs, crée une branche de publication et une pull request, attend la validation GitHub, fusionne
+la branche, téléverse les ZIP dans une release et publie le nouveau catalogue consommé par le jeu.
+
+GitHub CLI est installé automatiquement avec `winget` s'il manque. La première utilisation ouvre
+la connexion GitHub officielle dans le navigateur. Aucun mot de passe ni jeton n'est enregistré
+dans le dépôt.
+
+Pour vérifier localement sans envoyer quoi que ce soit :
+
+```powershell
+.\tools\publish-language-packs.ps1 -ReleaseTag packs-v1.2.0 -DryRun
+```
+
 ## Structure
 
 ```text
