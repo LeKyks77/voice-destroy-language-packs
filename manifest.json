@@ -55,8 +55,8 @@
                                                "sha256":  "84803A221ECF0B702CF7E42F97A72CF0CC3640E076C9EBDA125A08AB71B7857F",
                                                "license":  "Apache-2.0",
                                                "min_mod_version":  "1.5.0",
-                                               "description":  "Reconnaissance lÃ©gÃ¨re et plus approximative, idÃ©ale pour les petits PC.",
-                                               "hardware":  "Environ 300 Mo de RAM Â· petits PC et Raspberry Pi",
+                                               "description":  "Reconnaissance légère et plus approximative, idéale pour les petits PC.",
+                                               "hardware":  "Environ 300 Mo de RAM · petits PC et Raspberry Pi",
                                                "runtime_memory_mb":  300,
                                                "recommended":  true
                                            }
