@@ -67,10 +67,28 @@ function Get-GitHubCli {
     return $command.Source
 }
 
-function Assert-CleanRepository {
+function Assert-CleanRepository([switch]$AllowPreparedLanguageChanges) {
     $changes = & git status --porcelain
     if ($LASTEXITCODE -ne 0) { throw "Impossible de lire l'état Git du dépôt." }
     if ($changes) {
+        if ($AllowPreparedLanguageChanges) {
+            $unexpected = @(
+                foreach ($change in $changes) {
+                    if ($change.Length -lt 4) { $change; continue }
+                    $status = $change.Substring(0, 2)
+                    $path = $change.Substring(3).Trim('"').Replace('\', '/')
+                    $isGeneratedPath =
+                        $path -eq "manifest.json" -or
+                        $path -eq "tools/model-sources.json" -or
+                        $path.StartsWith("sources/", [StringComparison]::OrdinalIgnoreCase)
+                    if (-not $isGeneratedPath -or $status.Contains('D')) { $change }
+                }
+            )
+            if ($unexpected.Count -eq 0) {
+                Write-Host "Reprise d'une publication interrompue : fichiers de langue déjà préparés." -ForegroundColor Yellow
+                return
+            }
+        }
         throw "Le dépôt contient déjà des changements. Committe-les ou range-les avant de publier.`n$($changes -join "`n")"
     }
 }
@@ -129,7 +147,7 @@ try {
     if (-not (Test-Path -LiteralPath ".git" -PathType Container)) {
         throw "Ce script doit être lancé depuis le dépôt Git des packs de langues."
     }
-    Assert-CleanRepository
+    Assert-CleanRepository -AllowPreparedLanguageChanges
 
     $gh = $null
     if (-not $DryRun) {
@@ -148,7 +166,7 @@ try {
         }
         Invoke-Checked "git" @("switch", "main")
         Invoke-Checked "git" @("pull", "--ff-only", "origin", "main")
-        Assert-CleanRepository
+        Assert-CleanRepository -AllowPreparedLanguageChanges
     }
 
     if ([string]::IsNullOrWhiteSpace($ReleaseTag)) {
@@ -180,8 +198,13 @@ try {
     }
     Invoke-Checked "python" @($validatorPath)
 
-    $assets = @(Get-ManifestAssets $ReleaseTag | Sort-Object Name)
-    if (-not $SkipBuild -and $assets.Count -eq 0) { throw "Aucun pack final n'a été créé dans dist/." }
+    if ($SkipBuild) {
+        if (-not $DryRun) { throw "-SkipBuild est réservé au mode -DryRun." }
+        $assets = @()
+    } else {
+        $assets = @(Get-ManifestAssets $ReleaseTag | Sort-Object Name)
+        if ($assets.Count -eq 0) { throw "Aucun pack final n'a été créé dans dist/." }
+    }
 
     Write-Host ""
     Write-Host "Résumé de la publication $ReleaseTag" -ForegroundColor Cyan
